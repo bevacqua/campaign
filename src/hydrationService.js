@@ -40,7 +40,7 @@ function encoder (image, transformed) {
 
 module.exports = function (template, model, header, done) {
 
-    var defaultStyles = require('./defaultStyles.json');
+    var defaultStyles = require('./dat/defaultStyles.json');
 
     if (model.styles) {
         model.styles = _.merge({}, defaultStyles, model.styles);
