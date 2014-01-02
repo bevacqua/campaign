@@ -2,8 +2,9 @@
 
 var path = require('path');
 var emailService = require('./src/emailService.js');
-var mandrillClient = require('./src/client/mandrillClient.js');
 var consoleClient = require('./src/client/consoleClient.js');
+var mandrillClient = require('./src/client/mandrillClient.js');
+var nodemailerClient = require('./src/client/nodemailerClient.js');
 
 function api (options) {
     if (!options.client) {
