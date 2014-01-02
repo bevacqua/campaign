@@ -10,12 +10,13 @@ It uses [Mustache][6] to fill out the email templates, and [Mandrill][1] to actu
 
 Quick links for reference.
 
-- [Getting Started][start]
-- [Client Options][client]
-- [Send Options][send]
-- [Templates][templates]
-- [Debugging][debug]
-- [License][license]
+- [Getting Started](#getting-started)
+- [Client Options](#client-options)
+- [Send Options](#send-options)
+- [Templates](#templates)
+- [Styling](#styling-the-layout)
+- [Debugging](#debugging)
+- [License](#license)
 
 # Getting Started
 
@@ -50,14 +51,14 @@ Here are the default options, they are explained below.
 ```json
 {
     "mandrill": {
-        "apiKey": undefined,
+        "apiKey": "<not provided>",
         "debug": false
     },
-    "from": undefined,
-    "client": (mandrill),
+    "from": "<not provided>",
+    "client": "<defaults>",
     "trap": false,
-    "headerImage": undefined,
-    "layout": (default)
+    "headerImage": "<not provided>",
+    "layout": "<defaults>"
 }
 ```
 
@@ -103,20 +104,20 @@ Once you've created a client, you can start sending emails. Here are the default
 
 ```json
 {
-    "subject": undefined,
-    "preview": this.subject,
-    "to": (recipients),
-    "images": (images),
+    "subject": "<not provided>",
+    "preview": "<options.subject>",
+    "to": "<not provided>",
+    "images": "<empty>",
     "social": {
-        "twitter": undefined,
-        "landing": undefined,
-        "name": undefined
+        "twitter": "<not provided>",
+        "landing": "<not provided>",
+        "name": "<not provided>"
     },
     "mandrill": {
-        "tags": (tags),
-        "merge": (merge)
+        "tags": "<not provided>",
+        "merge": "<not provided>"
     },
-    "styles": (styles)
+    "styles": "<defaults>"
 }
 ```
 
@@ -160,14 +161,14 @@ Given that Mandrill's `merge` API is **fairly obscure**, we process it in our cl
 
 ```json
 {
-    locals: [{
-        email: "someone@accounting.is",
-        model: {
-            something: "is a merge local for the guy with that email"
+    "locals": [{
+        "email": "someone@accounting.is",
+        "model": {
+            "something": "is a merge local for the guy with that email"
         }
     }],
-    globals: [{
-        these: "are merge globals for everyone"
+    "globals": [{
+        "these": "are merge globals for everyone"
     }]
 }
 ```
@@ -176,7 +177,7 @@ Given that Mandrill's `merge` API is **fairly obscure**, we process it in our cl
 
 ### `styles`
 
-[Read about styles][styling] below.
+[Read about styles](#styling-the-layout) below.
 
 # Templates
 
@@ -184,7 +185,7 @@ There are two types of templates: the `layout`, and the email's `body` template.
 
 ### Email `body` Templates
 
-The `body` template determines what goes in the message body. The [options][send] we used to configure our email are _also used as the model_ for the `body` template, as sometimes it might be useful to include some of that metadata in the model itself.
+The `body` template determines what goes in the message body. The [options](#send-options) we used to configure our email are _also used as the model_ for the `body` template, as sometimes it might be useful to include some of that metadata in the model itself.
 
 The API expects an absolute path to the `body` template.
 
@@ -192,7 +193,7 @@ The API expects an absolute path to the `body` template.
 client.send(body, options, done);
 ```
 
-Other than the [options listed above][send], you can provide _any values you want_, and then reference those in the template.
+Other than the [options listed above](#send-options), you can provide _any values you want_, and then reference those in the template.
 
 ### The `layout` Template
 
@@ -202,22 +203,22 @@ Purposely, the layout template isn't passed the full model, but only a subset, c
 
 ```json
 {
-    "_header": !!model._header,
-    "subject": model.subject,
-    "preview": model.preview,
-    "generated": when
-    "body": html,
-    "trapped": model.trapped,
-    "social": model.social,
-    "styles": model.styles
+    "_header": "<!!options._header>",
+    "subject": "<options.subject>",
+    "preview": "<options.preview>",
+    "generated": "<when>",
+    "body": "<html>",
+    "trapped": "<options.trapped>",
+    "social": "<options.social>",
+    "styles": "<options.style>"
 }
 ```
 
-In this case, the `_header` would whether a header image was provided. Then, `generated` contains the moment the email was rendered, using the `'YYYY/MM/DD HH:mm, UTC Z'` format string. Lastly, `trapped` contains the metadata extracted from the model when `trap` is set in the [client options][client].
+In this case, the `_header` would whether a header image was provided. Then, `generated` contains the moment the email was rendered, using the `'YYYY/MM/DD HH:mm, UTC Z'` format string. Lastly, `trapped` contains the metadata extracted from the model when `trap` is set to `true`, in the [client options](#client-options).
 
 ### Styling the `layout`
 
-These are the default `styles`, and you can override them in the `options` passed to [`client.send`][send].
+These are the default `styles`, and you can override them in the `options` passed to [`client.send`](#send-options).
 
 ```json
 {
@@ -247,19 +248,19 @@ The default `layout` supports an optional `unsubscribe_html` merge variable, whi
         "locals": [{
             "email": "someone@somewhere.com",
             "model": {
-                unsubscribe_html: "<a href='http://sth.ng/unsubscribe/hash_someone'>unsubscribe</a>"
+                "unsubscribe_html": "<a href='http://sth.ng/unsubscribe/hash_someone'>unsubscribe</a>"
             }
         }, {
             "email": "someone@else.com",
             "model": {
-                unsubscribe_html: "<a href='http://sth.ng/unsubscribe/hash_someone_else'>unsubscribe</a>"
+                "unsubscribe_html": "<a href='http://sth.ng/unsubscribe/hash_someone_else'>unsubscribe</a>"
             }
         }]
     }
 }
 ```
 
-That'd be a perfect use for merge variables, which were described above in the [send options][send]. Remember, those are just supported by Mandrill, though. They [deal with those][4] after you make a request to their API.
+That'd be a perfect use for merge variables, which were described above in the [send options](#send-options). Remember, those are just supported by Mandrill, though. They [deal with those][4] after you make a request to their API.
 
 Here is a screenshot of an email sent using this library by the [Pony Foo blog][3], in production.
 
@@ -282,13 +283,6 @@ Now, rather than actually sending emails, you will get a lot of JSON output in y
 
 MIT
 
-  [start]: #getting-started
-  [client]: #client-options
-  [send]: #send-options
-  [templates]: #templates
-  [license]: #license
-  [styling]: #styling-the-layout
-  [debug]: #debugging
   [1]: http://mandrill.com/
   [2]: https://bitbucket.org/mailchimp/mandrill-api-node/src/d6dcc306135c6100d9bc2e2da2e82c8dec3ff6fb/mandrill.js?at=master
   [3]: http://blog.ponyfoo.com
