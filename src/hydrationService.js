@@ -20,9 +20,8 @@ function cacheHeader (model, header, next) {
 
 function encodeImages (model, next) {
     async.map(model.images || [], encoder, function (err, images) {
-        if (err) { return next(err); }
-
         model.images = images;
+        next(err);
     });
 }
 
@@ -52,7 +51,7 @@ module.exports = function (template, model, header, done) {
         model.social = {};
     }
 
-    model._template = filename(template);
+    model._template = template ? filename(template) : '(dynamic)';
 
     async.parallel([
         async.apply(cacheHeader, model, header),

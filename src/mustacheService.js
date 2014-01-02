@@ -14,7 +14,8 @@ function read (file, done) {
         if (err) {
             done(err);
         } else {
-            cache[file] = mustache.compile(template);
+            mustache.parse(template);
+            cache[file] = template;
             next();
         }
     });
@@ -26,16 +27,15 @@ function read (file, done) {
 
 module.exports = {
     render: function (file, model, done) {
-        read(file, function (err, fn) {
+        read(file, function (err, template) {
             if (err) {
                 done(err);
             } else {
-                done(null, fn(model));
+                done(null, mustache.render(template, model));
             }
         });
     },
     renderString: function (template, model, done) {
-        var fn = mustache.compile(template);
-        done(null, fn(model));
+        done(null, mustache.render(template, model));
     }
 };

@@ -278,11 +278,11 @@ To help you debug, an alternative `client` is provided. Set it up like this:
 ```js
 var campaign = require('campaign');
 var client = campaign({
-    client: campaign.clients.console
+    client: campaign.clients.console()
 });
 ```
 
-Now, rather than actually sending emails, you will get a lot of JSON output in your terminal. Useful!
+Rather than actually sending emails, you will get a lot of JSON output in your terminal. Useful!
 
 # License
 

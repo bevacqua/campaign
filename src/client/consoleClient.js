@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (options) {
+module.exports = function () {
 
     return {
         send: function (model, done) {

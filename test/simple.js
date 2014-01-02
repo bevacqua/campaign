@@ -2,7 +2,7 @@
 
 var campaign = require('../campaign.js');
 var client = campaign({
-    client: campaign.clients.console
+    client: campaign.clients.console()
 });
 
 var template = '<p>Some {{data}}</p>';

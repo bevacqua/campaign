@@ -6,11 +6,12 @@ var mustacheService = require('./mustacheService.js');
 module.exports = function (layout) {
 
     function getCallback (model, done) {
+
         return function callback (err, html) {
             if (err) { return done(err); }
 
             var when = moment().format('YYYY/MM/DD HH:mm, UTC Z');
-            var message = {
+            var layoutModel = {
                 _header: !!model._header,
                 subject: model.subject,
                 preview: model.preview,
@@ -21,7 +22,7 @@ module.exports = function (layout) {
                 styles: model.styles
             };
 
-            mustacheService.render(layout, message, done);
+            mustacheService.render(layout, layoutModel, done);
         };
     }
 
