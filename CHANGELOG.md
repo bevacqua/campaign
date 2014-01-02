@@ -1,3 +1,3 @@
-# 0.1.0 Dragon Fire
+# 1.0.0 Dragon Fire
 
 - Initial Public Release
