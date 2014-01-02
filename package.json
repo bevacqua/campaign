@@ -1,0 +1,29 @@
+{
+  "name": "campaign",
+  "description": "Compose responsive email templates easily, fill them with models, and send them out.",
+  "homepage": "https://github.com/bevacqua/campaign",
+  "author": {
+    "name": "Nicolas Bevacqua",
+    "email": "ng@bevacqua.io",
+    "url": "http://bevacqua.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bevacqua/campaign.git"
+  },
+  "version": "0.1.0",
+  "licenses": "MIT",
+  "keywords": [
+    "campaign",
+    "email",
+    "mail",
+    "mandrill",
+    "templates",
+    "mustache",
+    "smtp",
+    "imap",
+    "pop3"
+  ],
+  "main": "./campaign.js",
+  "dependencies": {}
+}
