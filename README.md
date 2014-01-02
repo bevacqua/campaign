@@ -39,7 +39,8 @@ var client = require('campaign')();
 Send emails!
 
 ```js
-client.send(body, options, done);
+client.send(template, options, done);
+client.sendString('<p>{{something}}</p>', options, done);
 ```
 
 <sub>_(detailed information below)_</sub>
@@ -120,6 +121,10 @@ Once you've created a client, you can start sending emails. Here are the default
     "styles": "<defaults>"
 }
 ```
+
+#### `.send` vs `.sendString`
+
+The only difference between `.send` and `.sendString` is that `.send` takes the path to a file, rather than the template itself. `.send` compiles the template and keeps it in a cache, while `.sendString` compiles the template every time.
 
 ### `subject`
 

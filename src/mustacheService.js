@@ -10,11 +10,11 @@ function read (file, done) {
         return process.nextTick(next);
     }
 
-    fs.readFile(file, { encoding: 'utf8' }, function (err, data) {
+    fs.readFile(file, { encoding: 'utf8' }, function (err, template) {
         if (err) {
             done(err);
         } else {
-            cache[file] = mustache.compile(data);
+            cache[file] = mustache.compile(template);
             next();
         }
     });
@@ -33,5 +33,9 @@ module.exports = {
                 done(null, fn(model));
             }
         });
+    },
+    renderString: function (template, model, done) {
+        var fn = mustache.compile(template);
+        done(null, fn(model));
     }
 };

@@ -2,7 +2,6 @@
 
 var _ = require('lodash');
 var async = require('async');
-var imageEncoder = require('./imageEncodingCacheService.js');
 
 module.exports = function (options) {
 
