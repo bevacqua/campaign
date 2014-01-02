@@ -25,5 +25,11 @@
     "pop3"
   ],
   "main": "./campaign.js",
-  "dependencies": {}
+  "dependencies": {
+    "async": "~0.2.9",
+    "lodash": "~2.4.1",
+    "mime": "~1.2.11",
+    "moment": "~2.5.0",
+    "mustache": "~0.8.0"
+  }
 }

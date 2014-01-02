@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var async = require('async');
 var imageEncoder = require('./imageEncodingCacheService.js');
 
 module.exports = function (options) {
@@ -15,7 +16,7 @@ module.exports = function (options) {
     function mapRecipients (to) {
         return _.map(to, function (recipient) {
             return { email: recipient };
-        };
+        });
     }
 
     function mapMergeHash (hash) {
@@ -26,7 +27,7 @@ module.exports = function (options) {
 
     function mapMergeLocals (hash) {
         return _.map(_.keys(hash || {}), function (key) {
-            local = hash[key];
+            var local = hash[key];
 
             return {
                 rcpt: local.email,
@@ -43,23 +44,18 @@ module.exports = function (options) {
             content: model._header.data
         }];
 
-        async.map(model.images || [], encode, result);
+        async.map(model.images || [], transform, result);
 
-        function encode (image, transformed) {
-            imageEncoder(image.file, function (err, encoded) {
-                if (err) { return done(err); }
-
-                next(null, {
-                    name: image.name,
-                    type: encoded.mime,
-                    content: encoded.data
-                });
+        function transform (image, transformed) {
+            transformed(null, {
+                name: image.name,
+                type: image.mime,
+                content: image.data
             });
         }
 
         function result (err, images) {
             if (err) { return done(err); }
-
             done(null, header.concat(images));
         }
     }
@@ -110,5 +106,5 @@ module.exports = function (options) {
             ], done);
 
         }
-    }
+    };
 };

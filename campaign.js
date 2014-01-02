@@ -1,5 +1,6 @@
 'use strict';
 
+var path = require('path');
 var mandrillSender = require('./src/mandrillSender.js');
 
 function api (options) {
@@ -11,7 +12,7 @@ function api (options) {
     }
 
     return require('./src/emailService.js')(options);
-};
+}
 
 api.defaultLayout = path.join(__dirname, 'templates/layout.mu');
 

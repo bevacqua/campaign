@@ -3,15 +3,17 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>{{preview}}</title>
-        <style type="text/css">#outlook a{padding:0;} .ReadMsgBody{width:100%;} .ExternalClass{width:100%;} .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;} table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} img{-ms-interpolation-mode:bicubic;} body{margin:0; padding:0;} img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;} table{border-collapse:collapse !important;} body, #bodyTable, #bodyCell{height:100% !important; margin:0; padding:0; width:100% !important;} #bodyCell{padding:20px;} #templateContainer{width:600px;}code{font-family: Consolas, Menlo, Monaco, "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace, serif;}
+        <style type="text/css">#outlook a{padding:0;} .ReadMsgBody{width:100%;} .ExternalClass{width:100%;} .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;} table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} img{-ms-interpolation-mode:bicubic;} body{margin:0; padding:0;} img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;} table{border-collapse:collapse !important;} body, .layout-table, .layout-td{height:100% !important; margin:0; padding:0; width:100% !important;} .layout-td{padding:20px;} .layout-inside{width:600px;}
+
+            code{font-family: {{{styles.codeFontFamily}}};}
 
             h1, h2, h3, h4 {
-                color:#412917 !important;
-                font-family:Helvetica;
+                color:{{{styles.headerColor}}} !important;
+                font-family:{{{styles.fontFamily}}};
                 font-style:normal;
                 font-weight:bold;
                 line-height:100%;
-                letter-spacing:normal;
+               l etter-spacing:normal;
                 display:block;
                 margin-top:0;
                 margin-right:0;
@@ -25,7 +27,7 @@
             h4{ font-size:14px; }
 
             a:link, a:visited, a .yshortcuts{
-                color:#e92c6c;
+                color: {{{styles.linkColor}}};
                 font-weight: bold;
                 text-decoration:none;
             }
@@ -40,43 +42,47 @@
             }
 
             blockquote {
-                border-left: 6px solid #cbc5c0;
+                border-left: 6px solid {{{styles.quoteBorderColor}}};
                 padding-left: 15px;
                 margin-left: 0;
             }
 
-            body, #bodyTable{ background-color:#f3f4eb; }
-            #bodyCell{ border-top: 4px solid #dedede; }
-            #templateContent{ background-color: #f4f4f4; }
-
-            #templatePreheader{
+            body, .layout-table{ background-color:{{{styles.layoutBackgroundColor}}}; }
+            .layout-td{ border-top: 4px solid {{{styles.horizontalBorderColor}}}; }
+            .layout-header{
                 border-bottom:1px solid #cccccc;
             }
-
-            #templateHeader{
-                border-top:1px solid #ffffff;
-            }
-
-            #templateBody{
-                background-color:#eaeadf;
-                border-bottom:1px solid #dedede;
-            }
-
-            #templateFooter{
-                border-top:1px solid #ffffff;
-            }
-
-            .preheaderContent{
-                color:#808080;
-                font-family:Helvetica;
+            .layout-header-content{
+                color:{{{styles.layoutTextColor}}};
+                font-family:{{{styles.fontFamily}}};
                 font-size:11px;
                 line-height:125%;
                 text-align:left;
             }
+            .layout-footer{
+                border-top:1px solid #ffffff;
+            }
+            .layout-footer-item{
+                color:{{{styles.layoutTextColor}}};
+                font-family:{{{styles.fontFamily}}};
+                font-size:10px;
+                line-height:150%;
+                padding-top:20px;
+                padding-right:20px;
+                padding-bottom:20px;
+                padding-left:20px;
+                text-align:right;
+            }
 
-            .headerContent{
-                color:#505050;
-                font-family:Helvetica;
+            .body-header-wrapper{
+                background-color: {{{styles.footerBackgroundColor}}};
+            }
+            .body-header-image-table{
+                border-top:1px solid #ffffff;
+            }
+            .body-header-image-td{
+                color: {{{styles.bodyTextColor}}};
+                font-family:{{{styles.fontFamily}}};
                 font-size:20px;
                 font-weight:bold;
                 line-height:100%;
@@ -87,15 +93,18 @@
                 text-align:left;
                 vertical-align:middle;
             }
-
-            #headerImage{
+            .body-header-image{
                 height:auto;
                 width: 100%;
             }
 
-            .bodyContent{
-                color:#505050;
-                font-family:Helvetica;
+            .body-container{
+                background-color:{{{styles.bodyBackgroundColor}}};
+                border-bottom: 1px solid {{{styles.horizontalBorderColor}}};
+            }
+            .body-content{
+                color: {{{styles.bodyTextColor}}};
+                font-family:{{{styles.fontFamily}}};
                 font-size:14px;
                 line-height:150%;
                 padding-top:20px;
@@ -104,29 +113,17 @@
                 padding-left:20px;
                 text-align:left;
             }
-
-            .bodyContent img{
+            .body-content img{
                 display:inline;
                 height:auto;
                 max-width:560px;
             }
 
-            .footerContent{
-                color:#808080;
-                font-family:Helvetica;
-                font-size:10px;
-                line-height:150%;
-                padding-top:20px;
-                padding-right:20px;
-                padding-bottom:20px;
-                padding-left:20px;
-                text-align:right;
-            }
 
             @media only screen and (max-width: 480px){
-                body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:none !important;} body{width:100% !important; min-width:100% !important;}  #bodyCell { padding:10px !important; }
+                body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:none !important;} body{width:100% !important; min-width:100% !important;}  .layout-td { padding:10px !important; }
 
-                #templateContainer{
+                .layout-inside{
                     max-width:460px !important;
                     width:100% !important;
                 }
@@ -135,42 +132,35 @@
                     font-size:24px !important;
                     line-height:100% !important;
                 }
-
                 h2{
                     font-size:20px !important;
                     line-height:100% !important;
                 }
-
                 h3{
                     font-size:18px !important;
                     line-height:100% !important;
                 }
-
                 h4{
                     font-size:16px !important;
                     line-height:100% !important;
                 }
 
-                /* ======== Header Styles ======== */
+                .layout-header{ display:none !important; }
+                .layout-footer-item{
+                    font-size:14px !important;
+                    line-height:115% !important;
+                }
+                .layout-footer-item a{display:block !important;}
 
-                #templatePreheader{ display:none !important; }
-
-                .headerContent{
+                .body-header-image-td{
                     font-size:20px !important;
                     line-height:125% !important;
                 }
 
-                .bodyContent{
+                .body-content{
                     font-size:18px !important;
                     line-height:125% !important;
                 }
-
-                .footerContent{
-                    font-size:14px !important;
-                    line-height:115% !important;
-                }
-
-                .footerContent a{display:block !important;}
             }
         </style>
     </head>
@@ -178,18 +168,18 @@
         <meta itemprop="description" content="{{preview}}"/>
 
         <center>
-            <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+            <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" class="layout-table">
                 <tr>
-                    <td align="center" valign="top" id="bodyCell">
-                        <table border="0" cellpadding="0" cellspacing="0" id="templateContainer">
+                    <td align="center" valign="top" class="layout-td">
+                        <table border="0" cellpadding="0" cellspacing="0" class="layout-inside">
                             <tr>
                                 <td align="center" valign="top">
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templatePreheader">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="layout-header">
                                         <tr>
-                                            <td valign="top" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:20px;">
+                                            <td valign="top" class="layout-header-content" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:20px;">
                                                 {{preview}}
                                             </td>
-                                            <td valign="top" width="180" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:0; text-align:right;">
+                                            <td valign="top" width="180" class="layout-header-content" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:0; text-align:right;">
                                                 sent {{generated}}
                                             </td>
                                         </tr>
@@ -198,15 +188,14 @@
                             </tr>
                             <tr>
                                 <td align="center" valign="top">
-                                    <!-- BEGIN CONTENT // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateContent">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="body-header-wrapper">
                                         <tr>
                                             <td align="center" valign="top">
                                                 {{#_header}}
-                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" class="body-header-image-table">
                                                     <tr>
-                                                        <td valign="top" class="headerContent">
-                                                            <img src="cid:_header" style="max-width:600px;" id="headerImage" alt="" />
+                                                        <td valign="top" class="body-header-image-td">
+                                                            <img src="cid:_header" style="max-width:600px;" class="body-header-image" alt="" />
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -215,12 +204,12 @@
                                         </tr>
                                         <tr>
                                             <td align="center" valign="top">
-                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" class="body-container">
                                                     <tr>
-                                                        <td valign="top" class="bodyContent">
+                                                        <td valign="top" class="body-content">
                                                             {{{body}}}
                                                             {{#trapped}}
-                                                            <div style='margin-top: 20px; padding: 10px; border: 3px solid #412917; background-color: #ffd2d2; color: #384c53;'>
+                                                            <div style='margin-top: 20px; padding: 10px; border: 3px solid {{{styles.headerColor}}}; background-color: #ffd2d2; color: #384c53;'>
                                                                 <div>
                                                                     <b>Recipients</b>
                                                                 </div>
@@ -236,10 +225,10 @@
                                         </tr>
                                         <tr>
                                             <td align="center" valign="top">
-                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" class="layout-footer">
                                                     <tr>
-                                                        <td valign="top" class="footerContent" style='text-align: left;'>*|HTML:unsubscribe_html|*</td>
-                                                        <td valign="top" class="footerContent">
+                                                        <td valign="top" class="layout-footer-item" style='text-align: left;'>*|HTML:unsubscribe_html|*</td>
+                                                        <td valign="top" class="layout-footer-item">
                                                             {{#social.twitter.url}}
                                                                 <a href="{{{social.twitter.url}}}">{{social.twitter.handle}} on Twitter</a>&nbsp;&nbsp;&nbsp;
                                                             {{/social.twitter.url}}

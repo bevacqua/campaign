@@ -114,7 +114,8 @@ Once you've created a client, you can start sending emails. Here are the default
     "mandrill": {
         "tags": (tags),
         "merge": (merge)
-    }
+    },
+    "styles": (styles)
 }
 ```
 
@@ -172,6 +173,10 @@ Given that Mandrill's `merge` API is **fairly obscure**, we process it in our cl
 
 [Mandrill][1] lets you tag your emails so that you can find different campaigns later on. Read more about [tagging][5]. By default, emails will be tagged with the template name.
 
+### `styles`
+
+[Read about styles][styling] below.
+
 # Templates
 
 There are two types of templates: the `layout`, and the email's `body` template. A default `layout` is provided, so let's talk about the email templates first, and then the layout.
@@ -202,11 +207,36 @@ Purposely, the layout template isn't passed the full model, but only a subset, c
     "generated": when
     "body": html,
     "trapped": model.trapped,
-    "social": model.social
+    "social": model.social,
+    "styles": model.styles
 }
 ```
 
 In this case, the `_header` would whether a header image was provided. Then, `generated` contains the moment the email was rendered, using the `'YYYY/MM/DD HH:mm, UTC Z'` format string. Lastly, `trapped` contains the metadata extracted from the model when `trap` is set in the [client options][client].
+
+### Styling the `layout`
+
+These are the default `styles`, and you can override them in the `options` passed to [`client.send`][send].
+
+```json
+{
+    "styles": {
+        "bodyBackgroundColor": "#eaeadf",
+        "bodyTextColor": "#505050",
+        "codeFontFamily": "Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif",
+        "fontFamily": "Helvetica",
+        "footerBackgroundColor": "#f4f4f4",
+        "headerColor": "#412917",
+        "horizontalBorderColor": "#dedede",
+        "layoutBackgroundColor": "#f3f4eb",
+        "layoutTextColor": "#808080",
+        "linkColor": "#e92c6c",
+        "quoteBorderColor": "#cbc5c0"
+    }
+}
+```
+
+### Unsubscribe Facilities
 
 The default `layout` supports an optional `unsubscribe_html` merge variable, which can be filled out like below.
 
@@ -243,6 +273,7 @@ MIT
   [send]: #send-options
   [templates]: #templates
   [license]: #license
+  [styling]: #styling-the-layout
   [1]: http://mandrill.com/
   [2]: https://bitbucket.org/mailchimp/mandrill-api-node/src/d6dcc306135c6100d9bc2e2da2e82c8dec3ff6fb/mandrill.js?at=master
   [3]: http://blog.ponyfoo.com
