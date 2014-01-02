@@ -267,7 +267,7 @@ Here is a screenshot of an email sent using this library by the [Pony Foo blog][
 
 # Debugging
 
-To help you debug, an alternative client is provided. Set it up like this:
+To help you debug, an alternative `client` is provided. Set it up like this:
 
 ```js
 var campaign = require('campaign');
