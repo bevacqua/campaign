@@ -10,6 +10,7 @@ It uses [Mustache][6] to fill out the email templates, and [Mandrill][1] to actu
 
 Quick links for reference.
 
+- [Changelog][changelog]
 - [Getting Started](#getting-started)
 - [Client Options](#client-options)
 - [Send Options](#email-sending-options)
@@ -288,6 +289,7 @@ Rather than actually sending emails, you will get a lot of JSON output in your t
 
 MIT
 
+  [changelog]: CHANGELOG.md
   [1]: http://mandrill.com/
   [2]: https://bitbucket.org/mailchimp/mandrill-api-node/src/d6dcc306135c6100d9bc2e2da2e82c8dec3ff6fb/mandrill.js?at=master
   [3]: http://blog.ponyfoo.com
