@@ -1,4 +1,4 @@
-# Campaign
+![campaign.png][9]
 
 > Compose responsive email templates easily, fill them with models, and send them out.
 
@@ -12,7 +12,7 @@ Quick links for reference.
 
 - [Getting Started](#getting-started)
 - [Client Options](#client-options)
-- [Send Options](#send-options)
+- [Send Options](#email-sending-options)
 - [Templates](#templates)
 - [Styling](#styling-the-layout)
 - [Debugging](#debugging)
@@ -185,7 +185,7 @@ There are two types of templates: the `layout`, and the email's `body` template.
 
 ### Email `body` Templates
 
-The `body` template determines what goes in the message body. The [options](#send-options) we used to configure our email are _also used as the model_ for the `body` template, as sometimes it might be useful to include some of that metadata in the model itself.
+The `body` template determines what goes in the message body. The [options](#email-sending-options) we used to configure our email are _also used as the model_ for the `body` template, as sometimes it might be useful to include some of that metadata in the model itself.
 
 The API expects an absolute path to the `body` template.
 
@@ -193,7 +193,7 @@ The API expects an absolute path to the `body` template.
 client.send(body, options, done);
 ```
 
-Other than the [options listed above](#send-options), you can provide _any values you want_, and then reference those in the template.
+Other than the [options listed above](#email-sending-options), you can provide _any values you want_, and then reference those in the template.
 
 ### The `layout` Template
 
@@ -218,7 +218,7 @@ In this case, the `_header` would whether a header image was provided. Then, `ge
 
 ### Styling the `layout`
 
-These are the default `styles`, and you can override them in the `options` passed to [`client.send`](#send-options).
+These are the default `styles`, and you can override them in the `options` passed to [`client.send`](#email-sending-options).
 
 ```json
 {
@@ -260,7 +260,7 @@ The default `layout` supports an optional `unsubscribe_html` merge variable, whi
 }
 ```
 
-That'd be a perfect use for merge variables, which were described above in the [send options](#send-options). Remember, those are just supported by Mandrill, though. They [deal with those][4] after you make a request to their API.
+That'd be a perfect use for merge variables, which were described above in the [send options](#email-sending-options). Remember, those are just supported by Mandrill, though. They [deal with those][4] after you make a request to their API.
 
 Here is a screenshot of an email sent using this library by the [Pony Foo blog][3], in production.
 
@@ -291,3 +291,4 @@ MIT
   [6]: https://github.com/janl/mustache.js
   [7]: https://github.com/mailchimp/Email-Blueprints
   [8]: http://i.imgur.com/Coy4m0Y.png
+  [9]: http://i.imgur.com/cBFalWm.png
