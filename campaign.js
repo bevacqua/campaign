@@ -1,19 +1,25 @@
 'use strict';
 
 var path = require('path');
-var mandrillSender = require('./src/mandrillSender.js');
+var emailService = require('./src/emailService.js');
+var mandrillClient = require('./src/client/mandrillClient.js');
+var consoleClient = require('./src/client/consoleClient.js');
 
 function api (options) {
     if (!options.client) {
-        options.client = mandrillSender(options);
+        options.client = mandrillClient(options);
     }
     if (!options.layout) {
         options.layout = api.defaultLayout;
     }
 
-    return require('./src/emailService.js')(options);
+    return emailService(options);
 }
 
 api.defaultLayout = path.join(__dirname, 'templates/layout.mu');
+api.clients = {
+    console: consoleClient,
+    mandrill: mandrillClient
+};
 
 module.exports = api;

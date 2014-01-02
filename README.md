@@ -14,6 +14,7 @@ Quick links for reference.
 - [Client Options][client]
 - [Send Options][send]
 - [Templates][templates]
+- [Debugging][debug]
 - [License][license]
 
 # Getting Started
@@ -264,6 +265,19 @@ Here is a screenshot of an email sent using this library by the [Pony Foo blog][
 
 ![sample.png][8]
 
+# Debugging
+
+To help you debug, an alternative client is provided. Set it up like this:
+
+```js
+var campaign = require('campaign');
+var client = campaign({
+    client: campaign.clients.console
+});
+```
+
+Now, rather than actually sending emails, you will get a lot of JSON output in your terminal. Useful!
+
 # License
 
 MIT
@@ -274,6 +288,7 @@ MIT
   [templates]: #templates
   [license]: #license
   [styling]: #styling-the-layout
+  [debug]: #debugging
   [1]: http://mandrill.com/
   [2]: https://bitbucket.org/mailchimp/mandrill-api-node/src/d6dcc306135c6100d9bc2e2da2e82c8dec3ff6fb/mandrill.js?at=master
   [3]: http://blog.ponyfoo.com
