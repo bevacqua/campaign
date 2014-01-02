@@ -19,7 +19,8 @@ function api (options) {
 api.defaultLayout = path.join(__dirname, 'templates/layout.mu');
 api.clients = {
     console: consoleClient,
-    mandrill: mandrillClient
+    mandrill: mandrillClient,
+    nodemailer: nodemailerClient
 };
 
 module.exports = api;

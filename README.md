@@ -17,6 +17,7 @@ Quick links for reference.
 - [Templates](#templates)
 - [Styling](#styling-the-layout)
 - [Debugging](#debugging)
+- [Clients](#clients)
 - [License](#license)
 
 # Getting Started
@@ -281,9 +282,66 @@ var campaign = require('campaign');
 var client = campaign({
     client: campaign.clients.console()
 });
+
+// build and send mails as usual
 ```
 
 Rather than actually sending emails, you will get a lot of JSON output in your terminal. Useful!
+
+# Clients
+
+There are a few clients you can use. The default client sends mails through [Mandrill][1]. There is also a `console` logging client, [explained above](#debugging), and a `nodemailer` client, detailed below.
+
+### Using `nodemailer`
+
+To use with `nodemailer`, simply use that client.
+
+```js
+var nodemailer = require('nodemailer');
+var smtp = nodemailer.createTransport('SMTP', {
+    service: 'Gmail',
+    auth: {
+        user: 'gmail.user@gmail.com',
+        pass: 'userpass'
+    }
+});
+
+var campaign = require('campaign');
+var client = campaign({
+    client: campaign.clients.nodemailer({
+        transport: smtp,
+        transform: function (options) {
+            options.from: 'foo@bar.com';
+            // set whatever other options you want
+        }
+    })
+});
+
+// build and send mails as usual
+```
+
+That's that.
+
+### Making your own client
+
+If the existing clients don't satisfy your needs, you may provide your own. The `client` option just needs to be an object with a `send` method. For an example, check out the [`nodemailer` client source code][10].
+
+You can easily write your own email sender, like this.
+
+```js
+var campaign = require('campaign');
+var client = campaign({
+    client: {
+        send: function (model, done) {
+            // use the data in the model to send your email messages
+        }
+    }
+});
+
+// build and send mails as usual
+```
+
+If you decide to go for your own client, `campaign` will still prove useful thanks to its templating features.
 
 # License
 
@@ -299,3 +357,4 @@ MIT
   [7]: https://github.com/mailchimp/Email-Blueprints
   [8]: http://i.imgur.com/Coy4m0Y.png
   [9]: http://i.imgur.com/cBFalWm.png
+  [10]: https://github.com/bevacqua/campaign/blob/master/src/client/nodemailerClient.js
