@@ -72,7 +72,7 @@ module.exports = function (options) {
             message: {
                 html: model.html,
                 subject: model.subject,
-                from_email: options.from,
+                from_email: model.from,
                 from_name: model.social.name,
                 to: mapRecipients(model.to),
                 auto_text: true,

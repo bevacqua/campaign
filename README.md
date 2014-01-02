@@ -81,7 +81,7 @@ You need to provide an API key in `apiKey`, and that's all there is to it. You m
 
 ### `from`
 
-An optional `from` address can be provided, the `client` is responsible for trying to make it look like that's the send address.
+The `from` address for our emails. The `client` is responsible for trying to make it look like that's the send address. Not necessarily used for authentication.
 
 ### `client`
 
@@ -311,8 +311,8 @@ var client = campaign({
     client: campaign.clients.nodemailer({
         transport: smtp,
         transform: function (options) {
-            options.from: 'foo@bar.com';
-            // set whatever other options you want
+            // add whatever options you want,
+            // or return a completely different object
         }
     })
 });

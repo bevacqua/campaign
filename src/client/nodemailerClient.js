@@ -12,14 +12,15 @@ module.exports = function (options) {
         send: function (model, done) {
 
             var message = {
+                from: model.from,
                 to: model.to.join(', '),
                 subject: model.subject,
                 html: model.html,
                 generateTextFromHTML: true
             };
+            var transformed = options.transform(message);
 
-            options.transform(message);
-            options.transport.sendMail(message, done);
+            options.transport.sendMail(transformed || message, done);
         }
     };
 };

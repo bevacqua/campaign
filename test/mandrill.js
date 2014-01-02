@@ -1,6 +1,6 @@
 'use strict';
 
-// process.env.MANDRILL_APIKEY = '<redacted>';
+process.env.MANDRILL_APIKEY = '<redacted>';
 
 var campaign = require('../campaign.js');
 var client = campaign({

@@ -23,7 +23,7 @@ function service (options) {
 
         async.series([
             async.apply(validation, model),
-            async.apply(hydrate, file, model, options.headerImage),
+            async.apply(hydrate, file, model, options),
             async.apply(async.waterfall, [
                 async.apply(render, template, model),
                 updateModel

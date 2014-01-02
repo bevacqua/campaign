@@ -37,7 +37,7 @@ function encoder (image, transformed) {
     });
 }
 
-module.exports = function (template, model, header, done) {
+module.exports = function (template, model, options, done) {
 
     var defaultStyles = require('./dat/defaultStyles.json');
 
@@ -51,10 +51,11 @@ module.exports = function (template, model, header, done) {
         model.social = {};
     }
 
+    model.from = options.from;
     model._template = template ? filename(template) : '(dynamic)';
 
     async.parallel([
-        async.apply(cacheHeader, model, header),
+        async.apply(cacheHeader, model, options.headerImage),
         async.apply(encodeImages, model)
     ], done);
 };
