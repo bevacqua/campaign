@@ -1,8 +1,12 @@
 'use strict';
 
+// process.env.MANDRILL_APIKEY = '<redacted>';
+
 var campaign = require('../campaign.js');
 var client = campaign({
-    client: campaign.clients.console({ trap: true })
+    from: 'nicolasbevacqua@gmail.com',
+    trap: 'nicolasbevacqua@gmail.com',
+    mandrill: { debug: true }
 });
 
 var template = '<p>Some {{data}}</p>';
@@ -13,6 +17,6 @@ var model = {
 };
 client.sendString(template, model, done);
 
-function done () {
-    console.log('Done!');
+function done (err, response) {
+    console.log('Done!', err, response);
 }

@@ -5,6 +5,10 @@ var async = require('async');
 
 module.exports = function (options) {
 
+    if (!options.mandrill) {
+        options.mandrill = {};
+    }
+
     var Mandrill = require('mandrill-api').Mandrill;
     var client = new Mandrill(options.mandrill.apiKey, options.mandrill.debug);
 
@@ -64,27 +68,29 @@ module.exports = function (options) {
         if (!model.mandrill) { model.mandrill = {}; }
         if (!model.mandrill.merge) { model.mandrill.merge = {}; }
 
-        var emailModel = {
-            html: model.html,
-            subject: model.subject,
-            from_email: options.from,
-            from_name: model.social.name,
-            to: mapRecipients(model.to),
-            auto_text: true,
-            inline_css: true,
-            preserve_recipients: false,
-            tags: model.mandrill.tags ? model.mandrill.tags : [model._template]
+        var apiModel = {
+            message: {
+                html: model.html,
+                subject: model.subject,
+                from_email: options.from,
+                from_name: model.social.name,
+                to: mapRecipients(model.to),
+                auto_text: true,
+                inline_css: true,
+                preserve_recipients: false,
+                tags: model.mandrill.tags ? model.mandrill.tags : [model._template]
+            }
         };
 
-        emailModel.message.merge_vars = mapMergeLocals(model.mandrill.merge.locals);
-        emailModel.message.global_merge_vars = mapMergeHash(model.mandrill.merge.globals);
-        emailModel.message.global_merge_vars.push({
+        apiModel.message.merge_vars = mapMergeLocals(model.mandrill.merge.locals);
+        apiModel.message.global_merge_vars = mapMergeHash(model.mandrill.merge.globals);
+        apiModel.message.global_merge_vars.push({
             name: 'unsubscribe_html', content: '' // default
         });
 
         getImages(model, function (err, images) {
-            emailModel.images = images;
-            next(err, emailModel);
+            apiModel.images = images;
+            next(err, apiModel);
         });
     }
 
