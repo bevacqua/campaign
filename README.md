@@ -2,9 +2,9 @@
 
 > Compose responsive email templates easily, fill them with models, and send them out.
 
-This is the stuff responsible for sending beautiful emails in [Pony Foo][3]. I've now isolated the code and made it into a reusable package, called `campaign`. It comes with a dead simple API, and a beautiful responsive layout, [originally written by MailChimp][7], adapted by me, and easily configurable.
+This is the stuff responsible for sending beautiful emails in [Pony Foo][3]. I've isolated that code, and turned it into a reusable package, called `campaign`. It comes with a dead simple API, and a beautiful responsive layout, [originally written by MailChimp][7], adapted by me. It's also easily configurable, and comes with nice conventions over configuration, so **you don't need to do a lot to get going**.
 
-It uses [Mustache][6] to fill out the email templates, and [Mandrill][1] <sub>_(by default)_</sub> to send the emails, although providing your own [`provider`](#providers) to actually send the emails is easy.
+It uses [Mustache][6] to fill out templates, and [Mandrill][1] <sub>_(by default)_</sub> to send emails, although providing your own [`provider`](#providers), to send emails through something else, is [pretty easy](#creating-custom-providers).
 
 # Reference
 
