@@ -4,7 +4,7 @@
 
 This is the stuff responsible for sending beautiful emails in [Pony Foo][3]. I've now isolated the code and made it into a reusable package, called `campaign`. It comes with a dead simple API, and a beautiful responsive layout, [originally written by MailChimp][7], adapted by me, and easily configurable.
 
-It uses [Mustache][6] to fill out the email templates, and [Mandrill][1] to actually send the emails, although providing your own service to actually send the emails is easy.
+It uses [Mustache][6] to fill out the email templates, and [Mandrill][1] <sub>_(by default)_</sub> to send the emails, although providing your own [`provider`](#providers) to actually send the emails is easy.
 
 # Reference
 
@@ -17,7 +17,7 @@ Quick links for reference.
 - [Templates](#templates)
 - [Styling](#styling-the-layout)
 - [Debugging](#debugging)
-- [Clients](#clients)
+- [Providers](#providers)
 - [License](#license)
 
 # Getting Started
@@ -46,6 +46,12 @@ client.sendString('<p>{{something}}</p>', options, done);
 ```
 
 <sub>_(detailed information below)_</sub>
+
+# Screenshot
+
+Here is a screenshot of an email sent using this library, as seen on [Pony Foo][3] subscriptions, in production. This email is using the default layout provided by `campaign`.
+
+![sample.png][8]
 
 # Client Options
 
@@ -146,7 +152,7 @@ If you want to provide the template with images other than the optional header w
 
 ```js
 [
-    { name: 'housing', file: path.join(__dirname, 'housing.png')}
+    { name: 'housing', file: path.join(__dirname, 'housing.png') }
 ]
 ```
 
@@ -221,7 +227,7 @@ Purposely, the layout template isn't passed the full model, but only a subset, c
 }
 ```
 
-In this case, the `_header` would whether a header image was provided. Then, `generated` contains the moment the email was rendered, using the `'YYYY/MM/DD HH:mm, UTC Z'` format string. Lastly, `trapped` contains the metadata extracted from the model when `trap` is set to `true`, in the [client options](#client-options).
+In this case, the `_header` variable would contain whether a header image was provided. Then, `generated` contains the moment the email was rendered, passing the `'YYYY/MM/DD HH:mm, UTC Z'` format string to [`moment`][11]. Lastly, `trapped` contains the metadata extracted from the model when `trap` is set to `true`, in the [client options](#client-options).
 
 ### Styling the `layout`
 
@@ -267,11 +273,7 @@ The default `layout` supports an optional `unsubscribe_html` merge variable, whi
 }
 ```
 
-That'd be a perfect use for merge variables, which were described above in the [send options](#email-sending-options). Remember, those are just supported by Mandrill, though. They [deal with those][4] after you make a request to their API.
-
-Here is a screenshot of an email sent using this library by the [Pony Foo blog][3], in production.
-
-![sample.png][8]
+That'd be a perfect use for merge variables, which were described above in the [send options](#email-sending-options). Remember, those are just supported by Mandrill, though. Mandrill [deals with merge variables][4] after you make a request to their API, replacing them with the values assigned to each recipient.
 
 # Debugging
 
@@ -288,7 +290,7 @@ var client = campaign({
 
 Rather than actually sending emails, you will get a lot of JSON output in your terminal. Useful!
 
-# Clients
+# Providers
 
 There are a few clients you can use. The default client sends mails through [Mandrill][1]. There is also a `console` logging client, [explained above](#debugging), and a `nodemailer` client, detailed below.
 
@@ -358,3 +360,4 @@ MIT
   [8]: http://i.imgur.com/Coy4m0Y.png
   [9]: http://i.imgur.com/cBFalWm.png
   [10]: https://github.com/bevacqua/campaign/blob/master/src/client/nodemailerClient.js
+  [11]: http://momentjs.com
