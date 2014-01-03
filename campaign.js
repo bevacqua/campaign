@@ -2,13 +2,13 @@
 
 var path = require('path');
 var emailService = require('./src/emailService.js');
-var consoleClient = require('./src/client/consoleClient.js');
-var mandrillClient = require('./src/client/mandrillClient.js');
-var nodemailerClient = require('./src/client/nodemailerClient.js');
+var consoleProvider = require('./src/providers/console.js');
+var mandrillProvider = require('./src/providers/mandrill.js');
+var nodemailerProvider = require('./src/providers/nodemailer.js');
 
 function api (options) {
-    if (!options.client) {
-        options.client = mandrillClient(options);
+    if (!options.provider) {
+        options.provider = mandrillProvider(options);
     }
     if (!options.layout) {
         options.layout = api.defaultLayout;
@@ -18,10 +18,10 @@ function api (options) {
 }
 
 api.defaultLayout = path.join(__dirname, 'templates/layout.mu');
-api.clients = {
-    console: consoleClient,
-    mandrill: mandrillClient,
-    nodemailer: nodemailerClient
+api.providers = {
+    console: consoleProvider,
+    mandrill: mandrillProvider,
+    nodemailer: nodemailerProvider
 };
 
 module.exports = api;

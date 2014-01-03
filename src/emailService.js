@@ -15,8 +15,8 @@ function service (options) {
             next();
         }
 
-        function clientSend (next) {
-            options.client.send(model, next);
+        function providerSend (next) {
+            options.provider.send(model, next);
         }
 
         var file = render === templateService.render ? template : null;
@@ -28,7 +28,7 @@ function service (options) {
                 async.apply(render, template, model),
                 updateModel
             ]),
-            clientSend
+            providerSend
         ], done);
     }
 

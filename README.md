@@ -36,7 +36,7 @@ Construct a `client`.
 var client = require('campaign')();
 ```
 
-<sub>_(the default client needs an API keep for [Mandrill][1], read on)_</sub>
+<sub>_(the default provider needs an API key for [Mandrill][1], read on)_</sub>
 
 Send emails!
 
@@ -64,7 +64,7 @@ Here are the default options, they are explained below.
         "debug": false
     },
     "from": "<not provided>",
-    "client": "<defaults>",
+    "provider": "<default>",
     "trap": false,
     "headerImage": "<not provided>",
     "layout": "<defaults>"
@@ -81,19 +81,17 @@ When you `trap` recipients, the email will get a nifty JSON at the end detailing
 
 By default, the [Mandrill][1] service is used to send the emails. Mandrill is really awesome and you should be using it. It has a generous free plan.
 
-At the time they host [the source code][2] in Bit Bucket, which is kind of cryptic, but you can read through it nonetheless.
+At the time they host [their API's source code][2] in Bit Bucket, which is kind of weird, but you can read through it nonetheless.
 
 You need to provide an API key in `apiKey`, and that's all there is to it. You might prefer to _ignore this configuration option_, and merely set `process.env.MANDRILL_APIKEY`. That works, too.
 
 ### `from`
 
-The `from` address for our emails. The `client` is responsible for trying to make it look like that's the send address. Not necessarily used for authentication.
+The `from` address for our emails. The `provider` is responsible for trying to make it look like that's the send address. Not necessarily used for authentication.
 
-### `client`
+### `provider`
 
-You can actually use other email clients, providing your own. To do so, you need to provide a `client` object. The `client` object should have a `send` function, which takes a `model`, and a `done` callback.
-
-Given that I originally worked with Mandrill, the `client` API is based on [their API client][2]. I'll add details upon request.
+You can use other email providers, [creating your own or choosing one](#providers) that comes with `campaign`. To implement it yourself, you need to create a custom `provider` object. The `provider` object should have a `send` function, which takes a `model`, and a `done` callback. You can [read more about custom providers](#creating-custom-providers) below.
 
 ### `headerImage`
 
@@ -148,7 +146,7 @@ These are the recipients of the email you're sending. Simply provide a single re
 
 ### `images`
 
-If you want to provide the template with images other than the optional header when creating the `campaign` client, you can provide a list of file paths and names (to reference them in your templates), as shown below.
+If you want to provide the template with embedded images _(other than the [optional email header](#headerimage) when creating the `campaign` client)_ you can set `images` to a list of file paths and names (to later reference them in your templates), as shown below.
 
 ```js
 [
@@ -164,13 +162,13 @@ The `name` is used as the name of the send address, as well as in the "Visit <na
 
 ### `mandrill`
 
-Configuration specifically used by the Mandrill client.
+Configuration specifically used by the Mandrill provider.
 
-Mandrill allows you to add dynamic content to your templates, and this feature is supported by the default Mandrill client in `campaign`, out the box. Read more about [merge variables][4].
+Mandrill allows you to add dynamic content to your templates, and this feature is supported by the default Mandrill provider in `campaign`, out the box. Read more about [merge variables][4].
 
 ##### `mandrill.merge`
 
-Given that Mandrill's `merge` API is **fairly obscure**, we process it in our client, so that you can configure it assigning something like what's below to `mandrill.merge`.
+Given that Mandrill's `merge` API is **fairly obscure**, we process it in our provider, so that you can configure it assigning something like what's below to `mandrill.merge`, which is cleaner than what Mandrill expects you to put together.
 
 ```json
 {
@@ -277,12 +275,12 @@ That'd be a perfect use for merge variables, which were described above in the [
 
 # Debugging
 
-To help you debug, an alternative `client` is provided. Set it up like this:
+To help you debug, an alternative `provider` is available. Set it up like this:
 
 ```js
 var campaign = require('campaign');
 var client = campaign({
-    client: campaign.clients.console()
+    provider: campaign.providers.console()
 });
 
 // build and send mails as usual
@@ -292,11 +290,11 @@ Rather than actually sending emails, you will get a lot of JSON output in your t
 
 # Providers
 
-There are a few clients you can use. The default client sends mails through [Mandrill][1]. There is also a `console` logging client, [explained above](#debugging), and a `nodemailer` client, detailed below.
+There are a few different providers you can use. The default provider sends mails through [Mandrill][1]. There is also a `console` logging provider, [explained above](#debugging), and a `nodemailer` provider, detailed below.
 
 ### Using `nodemailer`
 
-To use with `nodemailer`, simply use that client.
+To use with `nodemailer`, simply use that provider.
 
 ```js
 var nodemailer = require('nodemailer');
@@ -310,7 +308,7 @@ var smtp = nodemailer.createTransport('SMTP', {
 
 var campaign = require('campaign');
 var client = campaign({
-    client: campaign.clients.nodemailer({
+    provider: campaign.providers.nodemailer({
         transport: smtp,
         transform: function (options) {
             // add whatever options you want,
@@ -324,16 +322,16 @@ var client = campaign({
 
 That's that.
 
-### Making your own client
+### Creating custom providers
 
-If the existing clients don't satisfy your needs, you may provide your own. The `client` option just needs to be an object with a `send` method. For an example, check out the [`nodemailer` client source code][10].
+If the existing providers don't satisfy your needs, you may provide your own. The `provider` option just needs to be an object with a `send` method. For an example, check out the [`nodemailer` provider source code][10].
 
-You can easily write your own email sender, like this.
+You can easily write your own `campaign` provider, like this.
 
 ```js
 var campaign = require('campaign');
 var client = campaign({
-    client: {
+    provider: {
         send: function (model, done) {
             // use the data in the model to send your email messages
         }
@@ -343,7 +341,7 @@ var client = campaign({
 // build and send mails as usual
 ```
 
-If you decide to go for your own client, `campaign` will still prove useful thanks to its templating features.
+If you decide to go for your own provider, `campaign` will still prove useful thanks to its templating features.
 
 # License
 
@@ -359,5 +357,5 @@ MIT
   [7]: https://github.com/mailchimp/Email-Blueprints
   [8]: http://i.imgur.com/Coy4m0Y.png
   [9]: http://i.imgur.com/cBFalWm.png
-  [10]: https://github.com/bevacqua/campaign/blob/master/src/client/nodemailerClient.js
+  [10]: https://github.com/bevacqua/campaign/blob/master/src/providers/nodemailer.js
   [11]: http://momentjs.com

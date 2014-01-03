@@ -4,7 +4,7 @@ var campaign = require('../campaign.js');
 var client = campaign({
     from: 'nicolasbevacqua@gmail.com',
     trap: 'nicolasbevacqua@gmail.com',
-    client: campaign.clients.console()
+    provider: campaign.providers.console()
 });
 
 var template = '<p>Some {{data}}</p>';
