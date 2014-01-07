@@ -24,7 +24,7 @@ module.exports = function (trap) {
                 to: model.to || [],
                 merge: model.merge || []
             }, null, 2);
-            model.to = [trap];
+            model.to = typeof trap === 'string' ? [trap] : [];
         }
 
         done();

@@ -73,7 +73,7 @@ Here are the default options, they are explained below.
 
 ### `trap`
 
-If `true`, then emails won't be sent to any of the recipients, but they'll be sent to the provided `trap` address instead. For example, you could set `trap` to `nico@bevacqua.io`, and all emails would be sent to me instead of the intended recipients. Great for spamming me, and also great for testing.
+If `true`, then emails won't be sent to any recipients at all. You could also set `trap` to `nico@bevacqua.io`, and all emails would be sent to me instead of the intended recipients. Great for spamming me, and also great for testing.
 
 When you `trap` recipients, the email will get a nifty JSON at the end detailing the actual recipients that would've gotten it.
 
@@ -225,7 +225,7 @@ Purposely, the layout template isn't passed the full model, but only a subset, c
 }
 ```
 
-In this case, the `_header` variable would contain whether a header image was provided. Then, `generated` contains the moment the email was rendered, passing the `'YYYY/MM/DD HH:mm, UTC Z'` format string to [`moment`][11]. Lastly, `trapped` contains the metadata extracted from the model when `trap` is set to `true`, in the [client options](#client-options).
+In this case, the `_header` variable would contain whether a header image was provided. Then, `generated` contains the moment the email was rendered, passing the `'YYYY/MM/DD HH:mm, UTC Z'` format string to [`moment`][11]. Lastly, `trapped` contains the metadata extracted from the model when `trap` is set to [a truthy value][12], in the [client options](#client-options).
 
 ### Styling the `layout`
 
@@ -359,3 +359,4 @@ MIT
   [9]: http://i.imgur.com/cBFalWm.png
   [10]: https://github.com/bevacqua/campaign/blob/master/src/providers/nodemailer.js
   [11]: http://momentjs.com
+  [12]: http://www.sitepoint.com/javascript-truthy-falsy/
