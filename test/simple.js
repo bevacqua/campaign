@@ -2,19 +2,17 @@
 
 var campaign = require('../campaign.js');
 var client = campaign({
-    from: 'nicolasbevacqua@gmail.com',
-    trap: 'nicolasbevacqua@gmail.com',
     provider: campaign.providers.terminal()
 });
-
-var template = '<p>Some {{data}}</p>';
+var template = '<p>Your password reset key is: {{reset}}</p>';
 var model = {
-    to: 'foo@bar.com',
-    subject: 'Awesome Things',
-    data: 'interesting stuff'
+    to: 'someone@important.com',
+    subject: 'Password Reset',
+    reset: 'q12jFbwJsCKm'
 };
+
 client.sendString(template, model, done);
 
 function done () {
-    console.log('Done!');
+  console.log('Done.');
 }
