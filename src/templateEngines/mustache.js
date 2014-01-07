@@ -26,6 +26,7 @@ function read (file, done) {
 }
 
 module.exports = {
+    defaultLayout: path.join(__dirname, 'templates/layout.mu'),
     render: function (file, model, done) {
         read(file, function (err, template) {
             if (err) {

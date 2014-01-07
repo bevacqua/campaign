@@ -4,7 +4,7 @@
 
 This is the stuff responsible for sending beautiful emails in [Pony Foo][3]. I've isolated that code, and turned it into a reusable package, called `campaign`. It comes with a dead simple API, and a beautiful responsive layout, [originally written by MailChimp][7], adapted by me. It's also easily configurable, and comes with nice conventions over configuration, so **you don't need to do a lot to get going**.
 
-It uses [Mustache][6] to fill out templates, and [Mandrill][1] <sub>_(by default)_</sub> to send emails, although providing your own [`provider`](#providers), to send emails through something else, is [pretty easy](#creating-custom-providers).
+It uses [Mustache][6] <sub>_(by default)_</sub> to fill out templates, but it can be [replaced with some other](#template-engines) templating engine. [Mandrill][1] is used <sub>_(by default)_</sub> to send emails, although providing your own [`provider`](#providers), to send emails through something else, is [pretty easy](#creating-custom-providers).
 
 # Reference
 
@@ -18,6 +18,7 @@ Quick links for reference.
 - [Styling](#styling-the-layout)
 - [Debugging](#debugging)
 - [Providers](#providers)
+- [Template Engines](#template-engines)
 - [License](#license)
 
 # Getting Started
@@ -65,9 +66,10 @@ Here are the default options, they are explained below.
     },
     "from": "<not provided>",
     "provider": "<default>",
+    "templateEngine": "<default>",
     "trap": false,
     "headerImage": "<not provided>",
-    "layout": "<defaults>"
+    "layout": "<default>"
 }
 ```
 
@@ -93,6 +95,10 @@ The `from` address for our emails. The `provider` is responsible for trying to m
 
 You can use other email providers, [creating your own or choosing one](#providers) that comes with `campaign`. To implement it yourself, you need to create a custom `provider` object. The `provider` object should have a `send` function, which takes a `model`, and a `done` callback. You can [read more about custom providers](#creating-custom-providers) below.
 
+### `templateEngine`
+
+You can use other template engines, [creating your own](#template-engines). You'll need to create a custom `engine` object with both `render` and `renderString` methods. Note that template engines govern the default layouts. If you implement your own engine, you'll have to provide a default layout, as well.
+
 ### `headerImage`
 
 You may provide the full path to an image. This image will be encoded in `base64` and embedded into the email as a heading. Embedding helps people view your emails offline.
@@ -103,7 +109,7 @@ This image should have a `3:1`_ish_ ratio. For instance, I use `600x180` in [my 
 
 The layout used in your emails. Templates for email sending are meant to have the bare minimum needed to fill out an email. Since you want a consistent UX, the same `layout` should be used for every email your product sends.
 
-A default layout `template` is provided. You can provide a different one, just set `layout` to the absolute path of a [Mustache][6] template file. For information about the model passed to the layout, see the **Templates** section.
+A default layout `template` is provided. You can provide a different one, just set `layout` to the absolute path of a [Mustache][6] template <sub>_(or the template type supported by your engine)_</sub> file. For information about the model passed to the layout, see the **Templates** section.
 
 # Email Sending Options
 
@@ -208,7 +214,7 @@ Other than the [options listed above](#email-sending-options), you can provide _
 
 ### The `layout` Template
 
-The `layout` has one fundamental requirement in order to be mildly functional, it should have a `{{{body}}}` in it, so that the actual email's content can be rendered. Luckily the default `layout` is good enough that **you shouldn't need to touch it**.
+The `layout` has one fundamental requirement in order to be mildly functional, it should have a `{{{body}}}` in it, so that the actual email's content can be rendered. Luckily the default `layout` is good enough that **you shouldn't need to touch it**. If you're building a custom layout, `{{{body}}} should be whatever expression is needed to render the unescaped `<body>` HTML.
 
 Purposely, the layout template isn't passed the full model, but only a subset, containing:
 
@@ -249,6 +255,8 @@ These are the default `styles`, and you can override them in the `options` passe
 }
 ```
 
+Custom layouts should either abide by these style rule names, or provide entirely new ones.
+
 ### Unsubscribe Facilities
 
 The default `layout` supports an optional `unsubscribe_html` merge variable, which can be filled out like below.
@@ -280,7 +288,7 @@ To help you debug, an alternative `provider` is available. Set it up like this:
 ```js
 var campaign = require('campaign');
 var client = campaign({
-    provider: campaign.providers.console()
+    provider: campaign.providers.terminal()
 });
 
 // build and send mails as usual
@@ -290,7 +298,7 @@ Rather than actually sending emails, you will get a lot of JSON output in your t
 
 # Providers
 
-There are a few different providers you can use. The default provider sends mails through [Mandrill][1]. There is also a `console` logging provider, [explained above](#debugging), and a `nodemailer` provider, detailed below.
+There are a few different providers you can use. The default provider sends mails through [Mandrill][1]. There is also a `terminal` logging provider, [explained above](#debugging), and a `nodemailer` provider, detailed below.
 
 ### Using `nodemailer`
 
@@ -341,7 +349,24 @@ var client = campaign({
 // build and send mails as usual
 ```
 
-If you decide to go for your own provider, `campaign` will still prove useful thanks to its templating features.
+If you decide to go for your own provider, `campaign` will still prove useful thanks to its templating features, which you can also extend!
+
+# Template Engines
+
+The default provider included with `campaign` allows us to render layouts and views using [`mustache`][6], but this behavior can be altered to use a custom templating engine.
+
+To create your own template engine, you'll need to implement the two methods below.
+
+```js
+{
+  render: function (file, model, done) {
+  },
+  renderString: function (template, model, done) {
+  }
+}
+```
+
+The `done` callback takes an error as the first argument, and the resulting HTML as the second argument.
 
 # License
 

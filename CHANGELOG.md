@@ -1,3 +1,11 @@
+# 1.2.0
+
+- Support for plugging in templating engines other than `mustache`.
+
+**BREAKING**
+
+- Renamed `console` client as `terminal`.
+
 # 1.1.1 Real Eel
 
 - Setting `trap` to true will now simply not send any emails, period.

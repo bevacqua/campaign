@@ -2,26 +2,27 @@
 
 var path = require('path');
 var emailService = require('./src/emailService.js');
-var consoleProvider = require('./src/providers/console.js');
-var mandrillProvider = require('./src/providers/mandrill.js');
-var nodemailerProvider = require('./src/providers/nodemailer.js');
+var terminal = require('./src/providers/terminal.js');
+var mandrill = require('./src/providers/mandrill.js');
+var nodemailer = require('./src/providers/nodemailer.js');
+var mustache = require('./src/templateEngines/mustache.js');
 
 function api (options) {
-    if (!options.provider) {
-        options.provider = mandrillProvider(options);
-    }
-    if (!options.layout) {
-        options.layout = api.defaultLayout;
-    }
+    options.provider = options.provider || mandrill(options);
+    options.templateEngine = options.templateEngine || mustache;
+    options.layout = options.layout || options.templateEngine.defaultLayout;
 
     return emailService(options);
 }
 
-api.defaultLayout = path.join(__dirname, 'templates/layout.mu');
 api.providers = {
-    console: consoleProvider,
-    mandrill: mandrillProvider,
-    nodemailer: nodemailerProvider
+    terminal: terminal,
+    mandrill: mandrill,
+    nodemailer: nodemailer
+};
+
+api.templateEngines = {
+    mustache: mustache
 };
 
 module.exports = api;

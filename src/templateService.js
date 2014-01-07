@@ -1,9 +1,8 @@
 'use strict';
 
 var moment = require('moment');
-var mustacheService = require('./mustacheService.js');
 
-module.exports = function (layout) {
+module.exports = function (engine, layout) {
 
     function getCallback (model, done) {
 
@@ -22,16 +21,16 @@ module.exports = function (layout) {
                 styles: model.styles
             };
 
-            mustacheService.render(layout, layoutModel, done);
+            engine.render(layout, layoutModel, done);
         };
     }
 
     return {
         render: function (file, model, done) {
-            mustacheService.render(file, model, getCallback(model, done));
+            engine.render(file, model, getCallback(model, done));
         },
         renderString: function (template, model, done) {
-            mustacheService.renderString(template, model, getCallback(model, done));
+            engine.renderString(template, model, getCallback(model, done));
         }
     };
 };

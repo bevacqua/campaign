@@ -4,7 +4,7 @@ var async = require('async');
 
 function service (options) {
 
-    var templateService = require('./templateService.js')(options.layout);
+    var templateService = require('./templateService.js')(options.templateEngine, options.layout);
     var validation = require('./validationService.js')(options.trap);
     var hydrate = require('./hydrationService.js');
 

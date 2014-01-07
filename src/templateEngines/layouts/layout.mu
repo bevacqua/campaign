@@ -13,7 +13,7 @@
                 font-style:normal;
                 font-weight:bold;
                 line-height:100%;
-               l etter-spacing:normal;
+                letter-spacing:normal;
                 display:block;
                 margin-top:0;
                 margin-right:0;
