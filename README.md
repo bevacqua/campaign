@@ -1,4 +1,4 @@
-![campaign.png][9]
+![campaign.png][9] ![ga](https://ga-beacon.appspot.com/UA-35043128-6/campaign/readme?pixel)
 
 > Compose responsive email templates easily, fill them with models, and send them out.
 
