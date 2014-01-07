@@ -1,4 +1,4 @@
-# 1.2.0
+# 1.2.0 Spark Plugs
 
 - Support for plugging in templating engines other than `mustache`.
 
