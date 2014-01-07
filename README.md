@@ -19,6 +19,7 @@ Quick links for reference.
 - [Debugging](#debugging)
 - [Providers](#providers)
 - [Template Engines](#template-engines)
+- [Contribute!](#contributing)
 - [License](#license)
 
 # Getting Started
@@ -367,6 +368,12 @@ To create your own template engine, you'll need to implement the two methods bel
 ```
 
 The `done` callback takes an error as the first argument, and the resulting HTML as the second argument.
+
+# Contributing
+
+You're welcome to contribute to the development of `campaign`! Additional template engines and providers would be nice, and I'd encourage creating packages that solely contain that engine or email provider. For instance, you could create `campaign-jade`, or `campaign-postmark`.
+
+Hmmm, yeah. That'd be great!
 
 # License
 
