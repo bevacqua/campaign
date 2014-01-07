@@ -1,4 +1,4 @@
-# 1.1.1
+# 1.1.1 Real Eel
 
 - Setting `trap` to true will now simply not send any emails, period.
 
