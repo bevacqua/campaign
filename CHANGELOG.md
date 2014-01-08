@@ -1,3 +1,7 @@
+# 1.2.1 Mail Fraud
+
+- `client.send` and `client.sendString` now return only the result from the provider.
+
 # 1.2.0 Spark Plugs
 
 - Support for plugging in templating engines other than `mustache`.
