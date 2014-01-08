@@ -21,15 +21,17 @@ function service (options) {
 
         var file = render === templateService.render ? template : null;
 
-        async.series([
-            async.apply(validation, model),
-            async.apply(hydrate, file, model, options),
-            async.apply(async.waterfall, [
+        async.series({
+            validation: async.apply(validation, model),
+            hydration: async.apply(hydrate, file, model, options),
+            update: async.apply(async.waterfall, [
                 async.apply(render, template, model),
                 updateModel
             ]),
-            providerSend
-        ], done);
+            response: providerSend
+        }, function (err, results) {
+            done(err, results ? results.response : results);
+        });
     }
 
     return {
