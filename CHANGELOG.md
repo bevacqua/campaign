@@ -8,7 +8,7 @@
 
 # 1.1.1 Real Eel
 
-- Setting `trap` to true will now simply not send any emails, period.
+- Setting `trap` to `true` will now simply not send any emails, period.
 
 # 1.1.0 Providing for the family
 
