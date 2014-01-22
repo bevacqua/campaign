@@ -1,5 +1,7 @@
 ![campaign.png][9] ![ga](https://ga-beacon.appspot.com/UA-35043128-6/campaign/readme?pixel)
 
+[![help me on gittip](http://gbindex.ssokolow.com/img/gittip-43x20.png)](https://www.gittip.com/bevacqua/) [![flattr.png](https://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=nzgb&url=https%3A%2F%2Fgithub.com%2Fbevacqua%2Fcampaign)
+ 
 > Compose responsive email templates easily, fill them with models, and send them out.
 
 This is the stuff responsible for sending beautiful emails in [Pony Foo][3]. I've isolated that code, and turned it into a reusable package, called `campaign`. It comes with a dead simple API, and a beautiful responsive layout, [originally written by MailChimp][7], adapted by me. It's also easily configurable, and comes with nice conventions over configuration, so **you don't need to do a lot to get going**.
