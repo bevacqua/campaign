@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git://github.com/bevacqua/campaign.git"
   },
-  "version": "1.2.1",
+  "version": "1.2.2",
   "licenses": "MIT",
   "keywords": [
     "campaign",
@@ -27,6 +27,7 @@
   "main": "./campaign.js",
   "dependencies": {
     "async": "~0.2.9",
+    "hermit": "^0.2.2",
     "lodash": "~2.4.1",
     "mandrill-api": "~1.0.37",
     "mime": "~1.2.11",

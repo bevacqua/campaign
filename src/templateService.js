@@ -9,18 +9,19 @@ module.exports = function (engine, layout) {
         return function callback (err, html) {
             if (err) { return done(err); }
 
-            var when = moment().format('YYYY/MM/DD HH:mm, UTC Z');
+            model.generated = moment().format('YYYY/MM/DD HH:mm, UTC Z');
+            model.body = html;
+
             var layoutModel = {
                 _header: !!model._header,
                 subject: model.subject,
                 preview: model.preview,
-                generated: when,
-                body: html,
+                generated: model.generated,
+                body: model.body,
                 trapped: model.trapped,
                 social: model.social,
                 styles: model.styles
             };
-
             engine.render(layout, layoutModel, done);
         };
     }
