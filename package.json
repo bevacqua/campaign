@@ -32,6 +32,7 @@
     "mandrill-api": "~1.0.37",
     "mime": "~1.2.11",
     "moment": "~2.5.0",
-    "mustache": "~0.8.0"
+    "mustache": "~0.8.0",
+    "ultramarked": "^0.6.0"
   }
 }
