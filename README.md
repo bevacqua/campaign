@@ -299,6 +299,8 @@ var client = campaign({
 
 Rather than actually sending emails, you will get a bit of JSON output in your terminal, and the Markdown representation of your email's body HTML. Super useful during development!
 
+![terminal.png][13]
+
 # Providers
 
 There are a few different providers you can use. The default provider sends mails through [Mandrill][1]. There is also a `terminal` logging provider, [explained above](#debugging), and a `nodemailer` provider, detailed below.
@@ -394,3 +396,4 @@ MIT
   [10]: https://github.com/bevacqua/campaign/blob/master/src/providers/nodemailer.js
   [11]: http://momentjs.com
   [12]: http://www.sitepoint.com/javascript-truthy-falsy/
+  [13]: http://i.imgur.com/fTh1JiD.png
