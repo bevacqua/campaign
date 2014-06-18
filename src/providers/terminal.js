@@ -1,15 +1,6 @@
 'use strict';
 
-var hermit = require('hermit');
-var options = {
-    listIndent: '    ',
-    listStyle: '* ',
-    stylesheet: {
-        h1: 'white',
-        a: 'underline',
-        parent: {}
-    }
-};
+var htmlmd = require('html-md');
 
 module.exports = function () {
 
@@ -24,11 +15,8 @@ module.exports = function () {
             delete model.generated;
 
             console.log(JSON.stringify(model, null, 2));
-
-            hermit(body, options, function (err, result) {
-              console.log(result);
-              done();
-            });
+            console.log(htmlmd(body));
+            done();
         }
     };
 };
