@@ -297,7 +297,7 @@ var client = campaign({
 // build and send mails as usual
 ```
 
-Rather than actually sending emails, you will get a lot of JSON output in your terminal. Useful!
+Rather than actually sending emails, you will get a bit of JSON output in your terminal, and the Markdown representation of your email's body HTML. Super useful during development!
 
 # Providers
 
