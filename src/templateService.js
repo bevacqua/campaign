@@ -9,7 +9,7 @@ module.exports = function (engine, layout) {
         return function callback (err, html) {
             if (err) { return done(err); }
 
-            model.generated = model.when || moment().format('YYYY/MM/DD HH:mm, UTC Z');
+            model.generated = moment().format(model.when);
             model.body = html;
 
             var layoutModel = {

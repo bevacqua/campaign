@@ -1,7 +1,7 @@
 ![campaign.png][9] ![ga](https://ga-beacon.appspot.com/UA-35043128-6/campaign/readme?pixel)
 
 [![help me on gittip](http://gbindex.ssokolow.com/img/gittip-43x20.png)](https://www.gittip.com/bevacqua/) [![flattr.png](https://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=nzgb&url=https%3A%2F%2Fgithub.com%2Fbevacqua%2Fcampaign)
- 
+
 > Compose responsive email templates easily, fill them with models, and send them out.
 
 This is the stuff responsible for sending beautiful emails in [Pony Foo][3]. I've isolated that code, and turned it into a reusable package, called `campaign`. It comes with a dead simple API, and a beautiful responsive layout, [originally written by MailChimp][7], adapted by me. It's also easily configurable, and comes with nice conventions over configuration, so **you don't need to do a lot to get going**.
@@ -127,7 +127,7 @@ Once you've created a client, you can start sending emails. Here are the default
     "subject": "<not provided>",
     "preview": "<options.subject>",
     "to": "<not provided>",
-    "when": moment().format('[um] HH:mm [am] DD.MM.YYYY'),
+    "when": "YYYY/MM/DD HH:mm, UTC Z",
     "images": "<empty>",
     "social": {
         "twitter": "<not provided>",
@@ -160,7 +160,7 @@ These are the recipients of the email you're sending. Simply provide a single re
 
 ### `when`
 
-Here you can pass the format for the moment format string. Eg. moment().format('[um] HH:mm [am] DD.MM.YYYY'). The default-format is momemt().format('YYYY/MM/DD HH:mm, UTC Z').
+Here you can pass a `moment` [format string][15]. Eg. `'[um] HH:mm [am] DD.MM.YYYY'`. The default format passed to `moment` is `'YYYY/MM/DD HH:mm, UTC Z'`.
 
 ### `images`
 
@@ -407,3 +407,4 @@ MIT
   [12]: http://www.sitepoint.com/javascript-truthy-falsy/
   [13]: http://i.imgur.com/fTh1JiD.png
   [14]: https://github.com/bevacqua/campaign-jade
+  [15]: http://momentjs.com/docs/#/displaying/format/

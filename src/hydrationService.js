@@ -51,6 +51,10 @@ module.exports = function (template, model, options, done) {
         model.social = {};
     }
 
+    if (!model.when) {
+        model.when = 'YYYY/MM/DD HH:mm, UTC Z';
+    }
+
     model.from = options.from;
     model._template = template ? filename(template) : '(dynamic)';
 
