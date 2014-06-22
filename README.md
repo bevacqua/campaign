@@ -102,6 +102,10 @@ You can use other email providers, [creating your own or choosing one](#provider
 
 You can use other template engines, [creating your own](#template-engines). You'll need to create a custom `engine` object with both `render` and `renderString` methods. Note that template engines govern the default layouts. If you implement your own engine, you'll have to provide a default layout, as well.
 
+The default template engine uses `mustache`. Available engines listed below.
+
+- [`campaign-jade`][14]
+
 ### `headerImage`
 
 You may provide the full path to an image. This image will be encoded in `base64` and embedded into the email as a heading. Embedding helps people view your emails offline.
@@ -297,7 +301,9 @@ var client = campaign({
 // build and send mails as usual
 ```
 
-Rather than actually sending emails, you will get a lot of JSON output in your terminal. Useful!
+Rather than actually sending emails, you will get a bit of JSON output in your terminal, and the Markdown representation of your email's body HTML. Super useful during development!
+
+![terminal.png][13]
 
 # Providers
 
@@ -373,7 +379,7 @@ The `done` callback takes an error as the first argument, and the resulting HTML
 
 # Contributing
 
-You're welcome to contribute to the development of `campaign`! Additional template engines and providers would be nice, and I'd encourage creating packages that solely contain that engine or email provider. For instance, you could create `campaign-jade`, or `campaign-postmark`.
+You're welcome to contribute to the development of `campaign`! Additional template engines and providers would be nice, and I'd encourage creating packages that solely contain that engine or email provider. For instance, you could create `campaign-ejs`, or `campaign-postmark`.
 
 Hmmm, yeah. That'd be great!
 
@@ -394,3 +400,5 @@ MIT
   [10]: https://github.com/bevacqua/campaign/blob/master/src/providers/nodemailer.js
   [11]: http://momentjs.com
   [12]: http://www.sitepoint.com/javascript-truthy-falsy/
+  [13]: http://i.imgur.com/fTh1JiD.png
+  [14]: https://github.com/bevacqua/campaign-jade
