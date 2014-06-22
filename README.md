@@ -127,6 +127,7 @@ Once you've created a client, you can start sending emails. Here are the default
     "subject": "<not provided>",
     "preview": "<options.subject>",
     "to": "<not provided>",
+    "when": moment().format('[um] HH:mm [am] DD.MM.YYYY'),
     "images": "<empty>",
     "social": {
         "twitter": "<not provided>",
@@ -156,6 +157,10 @@ This is the line that most email clients show as the _preview_ of the email mess
 ### `to`
 
 These are the recipients of the email you're sending. Simply provide a single recipient's email address, or an array of email addresses.
+
+### `when`
+
+Here you can pass the format for the moment format string. Eg. moment().format('[um] HH:mm [am] DD.MM.YYYY'). The default-format is momemt().format('YYYY/MM/DD HH:mm, UTC Z').
 
 ### `images`
 
