@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git://github.com/bevacqua/campaign.git"
   },
-  "version": "1.2.6",
+  "version": "1.2.7",
   "licenses": "MIT",
   "keywords": [
     "campaign",
@@ -33,6 +33,6 @@
     "mime": "~1.2.11",
     "moment": "~2.5.0",
     "mustache": "~0.8.0",
-    "ultramarked": "^0.7.0"
+    "ultramarked": "^1.0.0"
   }
 }
