@@ -1,3 +1,7 @@
+# 1.2.8 Scoped Terminal
+
+- Terminal provider is now scoped
+
 # 1.2.6 Special Moments
 
 - Allow to modify `moment`'s format string
