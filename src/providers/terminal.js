@@ -2,13 +2,12 @@
 
 var ultramarked = require('ultramarked');
 var htmlmd = require('html-md');
-
-ultramarked.setOptions({
+var options = {
   smartLists: true,
   ultralight: true,
   ultrasanitize: true,
   terminal: true
-});
+};
 
 module.exports = function () {
 
@@ -23,7 +22,7 @@ module.exports = function () {
             delete model.generated;
 
             var md = htmlmd(body);
-            var term = ultramarked(md);
+            var term = ultramarked(md, options);
 
             console.log(JSON.stringify(model, null, 2));
             console.log(term);
