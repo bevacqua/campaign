@@ -22,7 +22,7 @@ module.exports = function (trap) {
             model.subject += ' - to: ' + getRecipientsTitle(model.to);
             model.trapped = JSON.stringify({
                 to: model.to || [],
-                merge: model.merge || []
+                merge: model.mandrill && model.mandrill.merge || []
             }, null, 2);
             model.to = typeof trap === 'string' ? [trap] : [];
         }
