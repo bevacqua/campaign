@@ -98,6 +98,9 @@ module.exports = function (options) {
         send: function (model, done) {
 
             function reallyReallySend (apiModel, next) {
+                var cpy = JSON.parse(JSON.stringify(apiModel,null,2))
+                cpy.images = cpy.images.map(function (i){i.content=i.content.slice(0,30); return i;});
+                console.log(JSON.stringify(cpy,null,2));
                 client.messages.send(apiModel, function (response) {
                     next(null, response);
                 }, function(err){

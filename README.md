@@ -172,6 +172,14 @@ If you want to provide the template with embedded images _(other than the [optio
 ]
 ```
 
+Instead of a `file` you can provide a `data` value with the base64 encoded data, and avoid the overhead of creating a temporary file. If you choose this approach you must set the `mime` property as well.
+
+```js
+[
+    { name: 'housing', mime: 'image/png', data: buff.toString('base64') }
+]
+```
+
 ### `social`
 
 Social metadata used when sending an email can help build your brand. You can provide a `twitter` handle, a `name` for your brand, and a `landing` page.

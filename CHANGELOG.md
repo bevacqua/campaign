@@ -1,3 +1,7 @@
+# 1.3.0 Touching Base
+
+- Alternative way to provide image paths using `base64` values
+
 # 1.2.8 Scoped Terminal
 
 - Terminal provider is now scoped

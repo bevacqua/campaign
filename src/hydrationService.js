@@ -26,6 +26,9 @@ function encodeImages (model, next) {
 }
 
 function encoder (image, transformed) {
+    if (image.data && image.mime) {
+        transformed(null, image); return;
+    }
     encode(image.file, function (err, encoded) {
         if (err) { return transformed(err); }
 
