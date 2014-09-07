@@ -1,4 +1,4 @@
-# 1.3.0 Touching Base
+# 1.3.1 Touching Base
 
 - Alternative way to provide image paths using `base64` values
 
