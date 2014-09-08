@@ -1,3 +1,7 @@
+# 1.3.3 Showdown
+
+- Fixed an issue where embedded images wouldn't be displayed
+
 # 1.3.1 Touching Base
 
 - Alternative way to provide image paths using `base64` values

@@ -13,7 +13,7 @@ module.exports = function (options) {
     var client = new Mandrill(options.mandrill.apiKey, options.mandrill.debug);
 
     if (!options.mandrill.apiKey && !process.env.MANDRILL_APIKEY) {
-        console.warn('Email API key not set');
+        console.warn('node_modules/campaign: Mandrill API key not set');
     }
 
     function mapRecipients (to) {
@@ -89,7 +89,7 @@ module.exports = function (options) {
         });
 
         getImages(model, function (err, images) {
-            apiModel.images = images;
+            apiModel.message.images = images;
             next(err, apiModel);
         });
     }

@@ -34,8 +34,8 @@ function encoder (image, transformed) {
 
         transformed(null, {
             name: image.name,
-            type: encoded.mime,
-            content: encoded.data
+            mime: encoded.mime,
+            data: encoded.data
         });
     });
 }
