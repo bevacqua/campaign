@@ -125,7 +125,7 @@ Once you've created a client, you can start sending emails. Here are the default
 ```json
 {
     "subject": "<not provided>",
-    "preview": "<options.subject>",
+    "teaser": "<options.subject>",
     "to": "<not provided>",
     "when": "YYYY/MM/DD HH:mm, UTC Z",
     "images": "<empty>",
@@ -150,9 +150,9 @@ The only difference between `.send` and `.sendString` is that `.send` takes the 
 
 The email subject.
 
-### `preview`
+### `teaser`
 
-This is the line that most email clients show as the _preview_ of the email message. It defaults to the subject line. Changing it is extremely encouraged.
+This is the line that most email clients show as a _teaser_ for the email message. It defaults to the subject line. Changing it is extremely encouraged.
 
 ### `to`
 

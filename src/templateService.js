@@ -15,7 +15,7 @@ module.exports = function (engine, layout) {
             var layoutModel = {
                 _header: !!model._header,
                 subject: model.subject,
-                preview: model.preview,
+                teaser: model.teaser,
                 generated: model.generated,
                 body: model.body,
                 trapped: model.trapped,

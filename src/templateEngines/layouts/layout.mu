@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>{{preview}}</title>
+        <title>{{subject}}</title>
         <style type="text/css">#outlook a{padding:0;} .ReadMsgBody{width:100%;} .ExternalClass{width:100%;} .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;} table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} img{-ms-interpolation-mode:bicubic;} body{margin:0; padding:0;} img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;} table{border-collapse:collapse !important;} body, .layout-table, .layout-td{height:100% !important; margin:0; padding:0; width:100% !important;} .layout-td{padding:20px;} .layout-inside{width:600px;}
 
             code{font-family: {{{styles.codeFontFamily}}};}
@@ -165,7 +165,7 @@
         </style>
     </head>
     <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" itemscope itemtype="http://schema.org/EmailMessage">
-        <meta itemprop="description" content="{{preview}}"/>
+        <meta itemprop="description" content="{{teaser}}"/>
 
         <center>
             <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" class="layout-table">
@@ -177,7 +177,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" class="layout-header">
                                         <tr>
                                             <td valign="top" class="layout-header-content" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:20px;">
-                                                {{preview}}
+                                                {{teaser}}
                                             </td>
                                             <td valign="top" width="180" class="layout-header-content" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:0; text-align:right;">
                                                 sent {{generated}}

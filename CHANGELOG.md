@@ -1,3 +1,7 @@
+# 1.4.0 Teaser Appeaser
+
+- Replace instances of `preview` with `teaser`
+
 # 1.3.3 Showdown
 
 - Fixed an issue where embedded images wouldn't be displayed

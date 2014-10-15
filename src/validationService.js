@@ -15,7 +15,7 @@ module.exports = function (trap) {
     function validateModel (model, done) {
         if (!model.to) { return done(new Error('Recipients missing in email')); }
         if (!model.subject) { return done(new Error('Subject missing in email')); }
-        if (!model.preview) { model.preview = model.subject; }
+        if (!model.teaser) { model.teaser = model.subject; }
         if (typeof model.to === 'string') { model.to = [model.to]; }
 
         if (trap) {
