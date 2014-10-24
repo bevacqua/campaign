@@ -21,7 +21,7 @@ module.exports = function () {
             var md = htmlmd(body);
             var term = ultramarked(md, options);
 
-            // console.log(JSON.stringify(model, null, 2));
+            console.log(JSON.stringify(model, null, 2));
             console.log(term);
             done();
         }

@@ -1,4 +1,4 @@
-# 1.4.0 Teaser Appeaser
+# 1.4.2 Teaser Appeaser
 
 - Replace instances of `preview` with `teaser`
 
