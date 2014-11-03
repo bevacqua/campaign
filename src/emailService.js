@@ -5,7 +5,6 @@ var async = require('async');
 function service (options) {
 
     var templateService = require('./templateService.js')(options.templateEngine, options.layout);
-    var validation = require('./validationService.js')(options.trap);
     var hydrate = require('./hydrationService.js');
 
     function renderer (render, template, model, done) {
@@ -19,6 +18,7 @@ function service (options) {
             options.provider.send(model, next);
         }
 
+        var validation = require('./validationService.js')(model.trap || options.trap);
         var file = render === templateService.render ? template : null;
 
         async.series({
