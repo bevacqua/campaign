@@ -120,12 +120,14 @@ A default layout `template` is provided. You can provide a different one, just s
 
 # Email Sending Options
 
-Once you've created a client, you can start sending emails. Here are the default options, and what you need to fill out.
+Once you've created a client, you can start sending emails. Here are the default options, and what you need to fill out. The `from` and `trap` fields are inherited from the configuration object passed to `campaign`, and they can be overridden on an email-by-email basis.
 
 ```json
 {
     "subject": "<not provided>",
     "teaser": "<options.subject>",
+    "from": "<campaign.from>",
+    "trap": "<campaign.trap>",
     "to": "<not provided>",
     "when": "YYYY/MM/DD HH:mm, UTC Z",
     "images": "<empty>",
