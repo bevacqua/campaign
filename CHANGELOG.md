@@ -1,3 +1,5 @@
+# 1.4.4 Unsubscribe As Authored
+
 # 1.4.3 Easy Going
 
 - Introduced ability to set `from` and `trap` fields on the email model as well as on the Campaign configuration object

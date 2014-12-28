@@ -9,6 +9,7 @@ module.exports = function (options) {
     }
 
     return {
+        name: 'nodemailer',
         send: function (model, done) {
 
             var message = {

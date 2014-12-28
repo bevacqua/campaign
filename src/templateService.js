@@ -2,7 +2,7 @@
 
 var moment = require('moment');
 
-module.exports = function (engine, layout) {
+module.exports = function (options) {
 
     function getCallback (model, done) {
 
@@ -22,16 +22,19 @@ module.exports = function (engine, layout) {
                 social: model.social,
                 styles: model.styles
             };
-            engine.render(layout, layoutModel, done);
+            if (options.provider.name === 'mandrill') {
+                layoutModel._unsubscribe = '*|HTML:unsubscribe_html|*';
+            }
+            options.engine.render(options.layout, layoutModel, done);
         };
     }
 
     return {
         render: function (file, model, done) {
-            engine.render(file, model, getCallback(model, done));
+            options.engine.render(file, model, getCallback(model, done));
         },
         renderString: function (template, model, done) {
-            engine.renderString(template, model, getCallback(model, done));
+            options.engine.renderString(template, model, getCallback(model, done));
         }
     };
 };

@@ -9,6 +9,7 @@ var options = {
 module.exports = function () {
 
     return {
+        name: 'terminal',
         send: function (model, done) {
             var body = model.body;
 

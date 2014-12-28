@@ -95,6 +95,7 @@ module.exports = function (options) {
     }
 
     return {
+        name: 'mandrill',
         send: function (model, done) {
 
             function reallyReallySend (apiModel, next) {

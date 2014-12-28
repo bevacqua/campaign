@@ -227,7 +227,7 @@
                                             <td align="center" valign="top">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="layout-footer">
                                                     <tr>
-                                                        <td valign="top" class="layout-footer-item" style='text-align: left;'>*|HTML:unsubscribe_html|*</td>
+                                                        <td valign="top" class="layout-footer-item" style='text-align: left;'>{{{_unsubscribe}}}</td>
                                                         <td valign="top" class="layout-footer-item">
                                                             {{#social.twitter.url}}
                                                                 <a href="{{{social.twitter.url}}}">{{social.twitter.handle}} on Twitter</a>&nbsp;&nbsp;&nbsp;
