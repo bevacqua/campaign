@@ -25,16 +25,16 @@ module.exports = function (options) {
             if (options.provider.name === 'mandrill') {
                 layoutModel._unsubscribe = '*|HTML:unsubscribe_html|*';
             }
-            options.engine.render(options.layout, layoutModel, done);
+            options.templateEngine.render(options.layout, layoutModel, done);
         };
     }
 
     return {
         render: function (file, model, done) {
-            options.engine.render(file, model, getCallback(model, done));
+            options.templateEngine.render(file, model, getCallback(model, done));
         },
         renderString: function (template, model, done) {
-            options.engine.renderString(template, model, getCallback(model, done));
+            options.templateEngine.renderString(template, model, getCallback(model, done));
         }
     };
 };
