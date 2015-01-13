@@ -1,4 +1,10 @@
+# 1.5.0 Bug as a Service
+
+- Fix an issue where the templating service would throw an error
+
 # 1.4.4 Unsubscribe As Authored
+
+- Introduced `_unsubscribe` layout property, making it optional _(but still a merge variable when using the Mandrill provider)_
 
 # 1.4.3 Easy Going
 
