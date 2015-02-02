@@ -20,7 +20,8 @@ module.exports = function (options) {
                 body: model.body,
                 trapped: model.trapped,
                 social: model.social,
-                styles: model.styles
+                styles: model.styles,
+                linkedData: model.linkedData
             };
             if (options.provider.name === 'mandrill') {
                 layoutModel._unsubscribe = '*|HTML:unsubscribe_html|*';

@@ -236,7 +236,7 @@ Other than the [options listed above](#email-sending-options), you can provide _
 
 ### The `layout` Template
 
-The `layout` has one fundamental requirement in order to be mildly functional, it should have a `{{{body}}}` in it, so that the actual email's content can be rendered. Luckily the default `layout` is good enough that **you shouldn't need to touch it**. If you're building a custom layout, `{{{body}}} should be whatever expression is needed to render the unescaped `<body>` HTML.
+The `layout` has one fundamental requirement in order to be mildly functional, it should have a `{{{body}}}` in it, so that the actual email's content can be rendered. Luckily the default `layout` is good enough that **you shouldn't need to touch it**. If you're building a custom layout, `{{{body}}}` should be whatever expression is needed to render the unescaped `<body>` HTML.
 
 Purposely, the layout template isn't passed the full model, but only a subset, containing:
 
@@ -249,7 +249,8 @@ Purposely, the layout template isn't passed the full model, but only a subset, c
     "body": "<html>",
     "trapped": "<options.trapped>",
     "social": "<options.social>",
-    "styles": "<options.style>"
+    "styles": "<options.style>",
+    "linkedData": "<options.linkedData>"
 }
 ```
 

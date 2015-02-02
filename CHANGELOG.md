@@ -1,3 +1,7 @@
+# 1.6.0 `JSON-LD`
+
+- Campaign now forwards the `linkedData` property to the layout template
+
 # 1.5.0 Bug as a Service
 
 - Fix an issue where the templating service would throw an error
