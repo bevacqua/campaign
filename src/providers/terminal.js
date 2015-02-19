@@ -1,9 +1,10 @@
 'use strict';
 
-var ultramarked = require('ultramarked');
 var htmlmd = require('html-md');
+var marked = require('marked');
+var TerminalRenderer = require('marked-terminal');
 var options = {
-  terminal: true
+  renderer: new TerminalRenderer()
 };
 
 module.exports = function () {
@@ -20,7 +21,7 @@ module.exports = function () {
             delete model.generated;
 
             var md = htmlmd(body);
-            var term = ultramarked(md, options);
+            var term = marked(md, options);
 
             console.log(JSON.stringify(model, null, 2));
             console.log(term);
