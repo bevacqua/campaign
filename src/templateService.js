@@ -26,7 +26,7 @@ module.exports = function (options) {
             if (options.provider.name === 'mandrill') {
                 layoutModel._unsubscribe = '*|HTML:unsubscribe_html|*';
             }
-            options.templateEngine.render(options.layout, layoutModel, done);
+            options.templateEngine.render(model.layout || options.layout, layoutModel, done);
         };
     }
 
