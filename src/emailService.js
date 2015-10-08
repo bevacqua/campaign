@@ -7,7 +7,7 @@ function service (options) {
     var templateService = require('./templateService.js')(options);
     var hydrate = require('./hydrationService.js');
 
-    function renderer (render, template, model, done) {
+    function renderer (render, template, model, send, done) {
 
         function updateModel (html, next) {
             model.html = html;
@@ -15,7 +15,11 @@ function service (options) {
         }
 
         function providerSend (next) {
-            options.provider.send(model, next);
+            if (send) {
+                options.provider.send(model, next);
+            } else {
+                next();
+            }
         }
 
         var validation = require('./validationService.js')(model.trap || options.trap);
@@ -30,16 +34,28 @@ function service (options) {
             ]),
             response: providerSend
         }, function (err, results) {
-            done(err, results ? results.response : results);
+            if (err) {
+                done(err);
+            } else if (send) {
+                done(null, results ? results.response : results);
+            } else {
+                done(null, model.html, model);
+            }
         });
     }
 
     return {
         send: function (file, model, done) {
-            renderer(templateService.render, file, model, done);
+            renderer(templateService.render, file, model, true, done);
         },
         sendString: function (template, model, done) {
-            renderer(templateService.renderString, template, model, done);
+            renderer(templateService.renderString, template, model, true, done);
+        },
+        render: function (file, model, done) {
+            renderer(templateService.render, file, model, false, done);
+        },
+        renderString: function (template, model, done) {
+            renderer(templateService.renderString, template, model, false, done);
         }
     };
 }
