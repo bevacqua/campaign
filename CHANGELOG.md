@@ -1,3 +1,7 @@
+# 2.0.0 Renderable Entities
+
+- Introduced `.render`, `.renderString` methods
+
 # 1.6.0 `JSON-LD`
 
 - Campaign now forwards the `linkedData` property to the layout template

@@ -148,6 +148,8 @@ Once you've created a client, you can start sending emails. Here are the default
 
 The only difference between `.send` and `.sendString` is that `.send` takes the path to a file, rather than the template itself. `.send` compiles the template and keeps it in a cache, while `.sendString` compiles the template every time.
 
+You can also use `.render` or `.renderString` as the equivalents to both of these methods that will only render the emails as HTML. This is useful for debugging and to render emails identically to what your customers see, but handle the rendering logic yourself.
+
 ### `subject`
 
 The email subject.
