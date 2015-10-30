@@ -1,3 +1,7 @@
+# 3.0.0 Modern Family
+
+- Replaced `html-md` with maintained module `htmlmd-2`
+
 # 2.0.0 Renderable Entities
 
 - Introduced `.render`, `.renderString` methods

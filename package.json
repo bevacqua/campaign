@@ -27,7 +27,7 @@
   "main": "./campaign.js",
   "dependencies": {
     "async": "~0.2.9",
-    "html-md": "^3.0.2",
+    "htmlmd-2": "1.0.0",
     "lodash": "~2.4.1",
     "mandrill-api": "~1.0.37",
     "marked": "^0.3.3",

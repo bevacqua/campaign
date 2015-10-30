@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var htmlmd = require('html-md');
+var htmlmd = require('htmlmd-2');
 var marked = require('marked');
 var TerminalRenderer = require('marked-terminal');
 var options = {
