@@ -1,3 +1,7 @@
+# 4.1.0 Format Wars
+
+- Introduced `formatting` option to modify HTML right before submission
+
 # 4.0.2 Nip Tuck
 
 - Minor internal nitpicking

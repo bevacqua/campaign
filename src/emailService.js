@@ -44,21 +44,25 @@ function service (options) {
     });
 
     function updateModel (html, next) {
-      model.html = tweak(html);
+      model.html = tweak(formatting(html));
       next();
-      function tweak (html) {
-        var rtweaker = /(\{{2,})([\w._-]+)(\}{2,})/g;
-        if (options.provider.tweakPlaceholder) {
-          return html.replace(rtweaker, tweaker);
-        }
-        return html;
-      }
-      function tweaker (all, left, content, right) {
-        var raw = left.length === 3 && right.length === 3;
-        return options.provider.tweakPlaceholder(content, raw);
-      }
     }
 
+    function formatting (html) {
+      return options.formatting ? options.formatting(html) : html;
+    }
+
+    function tweak (html) {
+      var rtweaker = /(\{{2,})([\w._-]+)(\}{2,})/g;
+      if (options.provider.tweakPlaceholder) {
+        return html.replace(rtweaker, tweaker);
+      }
+      return html;
+    }
+    function tweaker (all, left, content, right) {
+      var raw = left.length === 3 && right.length === 3;
+      return options.provider.tweakPlaceholder(content, raw);
+    }
     function providerSend (next) {
       if (send) {
         options.provider.send(model, next);

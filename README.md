@@ -85,6 +85,7 @@ There's a few configurable options, here's an overview of the default values.
   "provider": null,
   "templateEngine": null,
   "layout": null,
+  "formatting": null,
   "headerImage": null,
   "trap": false
 }
@@ -120,6 +121,16 @@ Available engines listed below.
 The layout used in your emails. Templates for email sending are meant to have the bare minimum needed to fill out an email. Since you want a consistent UX, the same `layout` should be used for every email your product sends.
 
 A default layout `template` is provided by supporting template engines. You can provide a different one, just set `layout` to the absolute path of a template file that's supported by your template engine. For information about the model passed to the layout, see the [Templates](#templates) section.
+
+### `formatting`
+
+When you want to customize HTML before submission, but after your template engine and layout have been rendered into a single piece of HTML, you can use the `formatting` option. Useful for tweaking CSS or markup in a global manner for all emails without having to touch the models every time.
+
+```js
+function formatting (html) {
+  return change(html);
+}
+```
 
 ### `headerImage`
 
