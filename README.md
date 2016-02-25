@@ -31,6 +31,13 @@ Quick links for reference.
 - [Contribute!](#contributing)
 - [License](#license)
 
+# Features
+
+- _Extensible._ Pick a template engine and an email sending service or SMTP and roll with it
+- Takes care of boring stuff: CSS inlining, `@media` queries, JSON-LD, plain-text versions of your HTML
+- Takes care of important stuff: batching requests, providing a sane API, view layouts, etc.
+- Provides debugging facilities for sending test emails and capturing output in a terminal session
+
 # Getting Started
 
 Install using `npm`.
