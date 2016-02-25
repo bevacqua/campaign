@@ -1,3 +1,7 @@
+# 4.1.1 Bear Trap
+
+- Don't annoy `trap` recipients with annoying `tweakPlaceholder` glyphs
+
 # 4.1.0 Format Wars
 
 - Introduced `formatting` option to modify HTML right before submission

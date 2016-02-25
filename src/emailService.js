@@ -22,7 +22,8 @@ function service (options) {
   };
 
   function renderer (render, template, model, send, done) {
-    var validation = require('./validationService.js')(model.trap || options.trap);
+    var trap = model.trap || options.trap;
+    var validation = require('./validationService.js')(trap);
     var file = render === templateService.render ? template : null;
 
     contra.series({
@@ -53,6 +54,9 @@ function service (options) {
     }
 
     function tweak (html) {
+      if (trap) { // don't annoy trap recipient with weird glyphs
+        return html;
+      }
       var rtweaker = /(\{{2,})([\w._-]+)(\}{2,})/g;
       if (options.provider.tweakPlaceholder) {
         return html.replace(rtweaker, tweaker);
