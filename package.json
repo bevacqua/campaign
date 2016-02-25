@@ -3,9 +3,9 @@
   "description": "Compose responsive email templates easily, fill them with models, and send them out.",
   "homepage": "https://github.com/bevacqua/campaign",
   "author": {
-    "name": "Nicolas Bevacqua",
-    "email": "ng@bevacqua.io",
-    "url": "http://bevacqua.io"
+    "name": "Nicolás Bevacqua",
+    "email": "hello@ponyfoo.com",
+    "url": "https://ponyfoo.com"
   },
   "repository": {
     "type": "git",
