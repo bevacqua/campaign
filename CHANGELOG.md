@@ -1,4 +1,4 @@
-# 4.0.1 Nip Tuck
+# 4.0.2 Nip Tuck
 
 - Minor internal nitpicking
 - Cleaned up dependency tree
