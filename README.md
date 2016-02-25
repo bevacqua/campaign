@@ -346,9 +346,9 @@ There are a few different providers you can use. The recommended provider is to 
 
 ### Creating custom providers
 
-If the existing providers don't satisfy your needs, you may provide your own. The `provider` option just needs to be an object with a `send` method. For an example, check out the [`campaign-nodemailer` provider source code][20].
+If the existing providers don't satisfy your needs, you may provide your own. The `provider` option just needs to be an object with a `send` method.
 
-To create your own email-sending provider, you'll need to create a module that implements the interface methods found below. See [`campaign-mailgun`][25] for an example on how you could implementat your own email-sending provider.
+To create your own email-sending provider, you'll need to create a module that implements the interface methods found below. See [`campaign-mailgun`][25] for an example on how you could implement your own email-sending provider.
 
 ```js
 {
@@ -372,7 +372,7 @@ If you decide to go for your own provider, `campaign` will still prove useful th
 
 The default provider included with `campaign` allows us to render layouts and views using [`mustache`][6], but this behavior can be altered to use a custom templating engine.
 
-To create your own template engine, you'll need to create a module that implements the interface methods found below. See [`campaign-jadum`][24] for an example on how you could implementat your own template engine.
+To create your own template engine, you'll need to create a module that implements the interface methods found below. See [`campaign-jadum`][24] for an example on how you could implement your own template engine.
 
 ```js
 {
