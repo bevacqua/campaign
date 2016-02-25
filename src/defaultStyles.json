@@ -1,0 +1,13 @@
+{
+  "bodyBackgroundColor": "#eaeadf",
+  "bodyTextColor": "#505050",
+  "codeFontFamily": "Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif",
+  "fontFamily": "Helvetica",
+  "footerBackgroundColor": "#f4f4f4",
+  "headerColor": "#412917",
+  "horizontalBorderColor": "#dedede",
+  "layoutBackgroundColor": "#f3f4eb",
+  "layoutTextColor": "#808080",
+  "linkColor": "#e92c6c",
+  "quoteBorderColor": "#cbc5c0"
+}

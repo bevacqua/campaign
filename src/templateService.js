@@ -3,39 +3,37 @@
 var moment = require('moment');
 
 module.exports = function (options) {
+  function getCallback (model, done) {
+    return function callback (err, html) {
+      if (err) { return done(err); }
 
-    function getCallback (model, done) {
+      model.generated = moment().format(model.when);
+      model.body = html;
 
-        return function callback (err, html) {
-            if (err) { return done(err); }
-
-            model.generated = moment().format(model.when);
-            model.body = html;
-
-            var layoutModel = {
-                _header: !!model._header,
-                subject: model.subject,
-                teaser: model.teaser,
-                generated: model.generated,
-                body: model.body,
-                trapped: model.trapped,
-                social: model.social,
-                styles: model.styles,
-                linkedData: model.linkedData
-            };
-            if (options.provider.name === 'mandrill') {
-                layoutModel._unsubscribe = '*|HTML:unsubscribe_html|*';
-            }
-            options.templateEngine.render(model.layout || options.layout, layoutModel, done);
-        };
-    }
-
-    return {
-        render: function (file, model, done) {
-            options.templateEngine.render(file, model, getCallback(model, done));
-        },
-        renderString: function (template, model, done) {
-            options.templateEngine.renderString(template, model, getCallback(model, done));
-        }
+      var layoutModel = {
+        _header: !!model._header,
+        subject: model.subject,
+        teaser: model.teaser,
+        generated: model.generated,
+        body: model.body,
+        trapped: model.trapped,
+        social: model.social,
+        styles: model.styles,
+        linkedData: model.linkedData
+      };
+      if (options.provider.name === 'mandrill') {
+        layoutModel._unsubscribe = '*|HTML:unsubscribe_html|*';
+      }
+      options.templateEngine.render(model.layout || options.layout, layoutModel, done);
     };
+  }
+
+  return {
+    render: function (file, model, done) {
+      options.templateEngine.render(file, model, getCallback(model, done));
+    },
+    renderString: function (template, model, done) {
+      options.templateEngine.renderString(template, model, getCallback(model, done));
+    }
+  };
 };

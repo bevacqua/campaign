@@ -6,7 +6,14 @@
 
 This is the stuff responsible for sending beautiful emails in [Pony Foo][3]. I've isolated that code, and turned it into a reusable package, called `campaign`. It comes with a dead simple API, and a beautiful responsive layout, [originally written by MailChimp][7], adapted by me. It's also easily configurable, and comes with nice conventions over configuration, so **you don't need to do a lot to get going**.
 
-It uses [Mustache][6] <sub>_(by default)_</sub> to fill out templates, but it can be [replaced with some other](#template-engines) templating engine. [Mandrill][1] is used <sub>_(by default)_</sub> to send emails, although providing your own [`provider`](#providers), to send emails through something else, is [pretty easy](#creating-custom-providers).
+Being **highly configurable** is important to `campaign`, and for that reason it ships with several plugins to popular view engines: `campaign-mustache`, `campaign-jade`, and `campaign-jadum`. You can use any of these to manage your email templates. Typically, you'll want to use the same templating engine you use in your front-end views, for consistency across your codebase.
+
+Campaign can send emails through a variety of services using different plugins as well. You could also create your own email service provider plugin.
+
+- [`campaign-mailgun`][16] sends emails through `mailgun`
+- [`campaign-terminal`][19] renders emails as **Terminal-friendly Markdown** in your terminal for convenient debugging
+- [`campaign-nodemailer`][20] sends emails through `nodemailer`
+- [`campaign-mandrill`][21] sends emails through `mandrill-api`
 
 # Reference
 
@@ -37,10 +44,13 @@ Set it up.
 Construct a `client`.
 
 ```js
-var client = require('campaign')();
+var client = require('campaign')({
+  templateEngine: require('campaign-jade'),
+  provider: require('campaign-mailgun')({
+    apiKey: 'key-12rvasxx'
+  })
+});
 ```
-
-<sub>_(the default provider needs an API key for [Mandrill][1], read on)_</sub>
 
 Send emails!
 
@@ -59,36 +69,18 @@ Here is a screenshot of an email sent using this library, as seen on [Pony Foo][
 
 # Client Options
 
-Here are the default options, they are explained below.
+There's a few configurable options, here's an overview of the default values.
 
 ```json
 {
-    "mandrill": {
-        "apiKey": "<not provided>",
-        "debug": false
-    },
-    "from": "<not provided>",
-    "provider": "<default>",
-    "templateEngine": "<default>",
-    "trap": false,
-    "headerImage": "<not provided>",
-    "layout": "<default>"
+  "from": null,
+  "provider": null,
+  "templateEngine": null,
+  "layout": null,
+  "headerImage": null,
+  "trap": false
 }
 ```
-
-### `trap`
-
-If `true`, then emails won't be sent to any recipients at all. You could also set `trap` to `nico@bevacqua.io`, and all emails would be sent to me instead of the intended recipients. Great for spamming me, and also great for testing.
-
-When you `trap` recipients, the email will get a nifty JSON at the end detailing the actual recipients that would've gotten it.
-
-### `mandrill`
-
-By default, the [Mandrill][1] service is used to send the emails. Mandrill is really awesome and you should be using it. It has a generous free plan.
-
-At the time they host [their API's source code][2] in Bit Bucket, which is kind of weird, but you can read through it nonetheless.
-
-You need to provide an API key in `apiKey`, and that's all there is to it. You might prefer to _ignore this configuration option_, and merely set `process.env.MANDRILL_APIKEY`. That works, too.
 
 ### `from`
 
@@ -96,15 +88,30 @@ The `from` address for our emails. The `provider` is responsible for trying to m
 
 ### `provider`
 
-You can use other email providers, [creating your own or choosing one](#providers) that comes with `campaign`. To implement it yourself, you need to create a custom `provider` object. The `provider` object should have a `send` function, which takes a `model`, and a `done` callback. You can [read more about custom providers](#creating-custom-providers) below.
+You can pick any supported email providers, [creating your own or choosing one](#providers) that comes with `campaign`. To implement a `provider` yourself, you'll need to create a custom `provider` object. The `provider` object should have a `send` function, which takes a `model`, and a `done` callback. You can [read more about custom providers](#creating-custom-providers) below.
+
+Available providers listed below.
+
+- [`campaign-mailgun`][16]
+- [`campaign-terminal`][19]
+- [`campaign-nodemailer`][20]
+- [`campaign-mandrill`][21]
 
 ### `templateEngine`
 
 You can use other template engines, [creating your own](#template-engines). You'll need to create a custom `engine` object with both `render` and `renderString` methods. Note that template engines govern the default layouts. If you implement your own engine, you'll have to provide a default layout, as well.
 
-The default template engine uses `mustache`. Available engines listed below.
+Available engines listed below.
 
+- [`campaign-jadum`][18]
 - [`campaign-jade`][14]
+- [`campaign-mustache`][17]
+
+### `layout`
+
+The layout used in your emails. Templates for email sending are meant to have the bare minimum needed to fill out an email. Since you want a consistent UX, the same `layout` should be used for every email your product sends.
+
+A default layout `template` is provided by supporting template engines. You can provide a different one, just set `layout` to the absolute path of a template file that's supported by your template engine. For information about the model passed to the layout, see the [Templates](#templates) section.
 
 ### `headerImage`
 
@@ -112,11 +119,11 @@ You may provide the full path to an image. This image will be encoded in `base64
 
 This image should have a `3:1`_ish_ ratio. For instance, I use `600x180` in [my blog][3]'s emails.
 
-### `layout`
+### `trap`
 
-The layout used in your emails. Templates for email sending are meant to have the bare minimum needed to fill out an email. Since you want a consistent UX, the same `layout` should be used for every email your product sends.
+If `true`, then emails won't be sent to any recipients at all. You could also set `trap` to `nico@bevacqua.io`, and all emails would be sent to me instead of the intended recipients. Great for spamming me, and also great for testing.
 
-A default layout `template` is provided. You can provide a different one, just set `layout` to the absolute path of a [Mustache][6] template <sub>_(or the template type supported by your engine)_</sub> file. For information about the model passed to the layout, see the **Templates** section.
+When you `trap` recipients, the email will get a nifty JSON at the end detailing the actual recipients that would've gotten it.
 
 # Email Sending Options
 
@@ -124,23 +131,23 @@ Once you've created a client, you can start sending emails. Here are the default
 
 ```json
 {
-    "subject": "<not provided>",
-    "teaser": "<options.subject>",
-    "from": "<campaign.from>",
-    "trap": "<campaign.trap>",
-    "to": "<not provided>",
-    "when": "YYYY/MM/DD HH:mm, UTC Z",
-    "images": "<empty>",
-    "social": {
-        "twitter": "<not provided>",
-        "landing": "<not provided>",
-        "name": "<not provided>"
-    },
-    "mandrill": {
-        "tags": "<not provided>",
-        "merge": "<not provided>"
-    },
-    "styles": "<defaults>"
+  "subject": "<not provided>",
+  "teaser": "<options.subject>",
+  "from": "<campaign.from>",
+  "trap": "<campaign.trap>",
+  "to": "<not provided>",
+  "when": "YYYY/MM/DD HH:mm, UTC Z",
+  "images": "<empty>",
+  "social": {
+    "twitter": "<not provided>",
+    "landing": "<not provided>",
+    "name": "<not provided>"
+  },
+  "provider": {
+    "tags": "<not provided>",
+    "merge": "<not provided>"
+  },
+  "styles": "<defaults>"
 }
 ```
 
@@ -172,7 +179,7 @@ If you want to provide the template with embedded images _(other than the [optio
 
 ```js
 [
-    { name: 'housing', file: path.join(__dirname, 'housing.png') }
+  { name: 'housing', file: path.join(__dirname, 'housing.png') }
 ]
 ```
 
@@ -180,7 +187,7 @@ Instead of a `file` you can provide a `data` value with the base64 encoded data,
 
 ```js
 [
-    { name: 'housing', mime: 'image/png', data: buff.toString('base64') }
+  { name: 'housing', mime: 'image/png', data: buff.toString('base64') }
 ]
 ```
 
@@ -190,31 +197,35 @@ Social metadata used when sending an email can help build your brand. You can pr
 
 The `name` is used as the name of the send address, as well as in the "Visit <name>" link.
 
-### `mandrill`
+### `provider`
 
-Configuration specifically used by the Mandrill provider.
+Configuration specifically used by the email-sending provider.
 
-Mandrill allows you to add dynamic content to your templates, and this feature is supported by the default Mandrill provider in `campaign`, out the box. Read more about [merge variables][4].
+Many email providers allow you to add dynamic content to your templates. For instance, the feature is supported by both the [`campaign-mailgun`][16] and the [`campaign-mandrill`][21] providers, out the box. Read more about [merge variables][4] in Mandrill.
 
-##### `mandrill.merge`
+##### `provider.merge`
 
-Given that Mandrill's `merge` API is **fairly obscure**, we process it in our provider, so that you can configure it assigning something like what's below to `mandrill.merge`, which is cleaner than what Mandrill expects you to put together.
+Providers have wildly different `merge` API in terms of how they want you to give them these recipient-specific variables and how you can reference them in your templates. Campaign helps by providing a reasonable API and then deals with obscure provider data formats under the hood, so you don't have to.
+
+The following example shows merge variables for a couple emails and defaults that are used when a particular recipient doesn't have a value for a given variable.
 
 ```json
 {
-    "locals": [{
-        "email": "someone@accounting.is",
-        "model": {
-            "something": "is a merge local for the guy with that email"
-        }
-    }],
-    "globals": [{
-        "these": "are merge globals for everyone"
-    }]
+  "someone@accounting.is": {
+    "something": "is a merge variable for the guy with that email"
+  },
+  "someone.else@accounting.is": {
+    "here": "is a merge variable for another peep"
+  },
+  "*": {
+    "whatever": "is a merge variable for everyone, useful for defaults"
+  }
 }
 ```
 
-[Mandrill][1] lets you tag your emails so that you can find different campaigns later on. Read more about [tagging][5]. By default, emails will be tagged with the template name.
+##### `provider.tags`
+
+[Mandrill][1] and others let you tag your emails so that you can find different campaigns later on. Read more about [tagging][5]. By default, emails will be tagged with the template name.
 
 ### `styles`
 
@@ -244,15 +255,15 @@ Purposely, the layout template isn't passed the full model, but only a subset, c
 
 ```json
 {
-    "_header": "<!!options._header>",
-    "subject": "<options.subject>",
-    "preview": "<options.preview>",
-    "generated": "<when>",
-    "body": "<html>",
-    "trapped": "<options.trapped>",
-    "social": "<options.social>",
-    "styles": "<options.style>",
-    "linkedData": "<options.linkedData>"
+  "_header": "<options._header>",
+  "subject": "<options.subject>",
+  "preview": "<options.preview>",
+  "generated": "<when>",
+  "body": "<html>",
+  "trapped": "<options.trapped>",
+  "social": "<options.social>",
+  "styles": "<options.style>",
+  "linkedData": "<options.linkedData>"
 }
 ```
 
@@ -264,19 +275,19 @@ These are the default `styles`, and you can override them in the `options` passe
 
 ```json
 {
-    "styles": {
-        "bodyBackgroundColor": "#eaeadf",
-        "bodyTextColor": "#505050",
-        "codeFontFamily": "Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif",
-        "fontFamily": "Helvetica",
-        "footerBackgroundColor": "#f4f4f4",
-        "headerColor": "#412917",
-        "horizontalBorderColor": "#dedede",
-        "layoutBackgroundColor": "#f3f4eb",
-        "layoutTextColor": "#808080",
-        "linkColor": "#e92c6c",
-        "quoteBorderColor": "#cbc5c0"
-    }
+  "styles": {
+    "bodyBackgroundColor": "#eaeadf",
+    "bodyTextColor": "#505050",
+    "codeFontFamily": "Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif",
+    "fontFamily": "Helvetica",
+    "footerBackgroundColor": "#f4f4f4",
+    "headerColor": "#412917",
+    "horizontalBorderColor": "#dedede",
+    "layoutBackgroundColor": "#f3f4eb",
+    "layoutTextColor": "#808080",
+    "linkColor": "#e92c6c",
+    "quoteBorderColor": "#cbc5c0"
+  }
 }
 ```
 
@@ -288,23 +299,18 @@ The default `layout` supports an optional `unsubscribe_html` merge variable, whi
 
 ```json
 {
-    "merge": {
-        "locals": [{
-            "email": "someone@somewhere.com",
-            "model": {
-                "unsubscribe_html": "<a href='http://sth.ng/unsubscribe/hash_someone'>unsubscribe</a>"
-            }
-        }, {
-            "email": "someone@else.com",
-            "model": {
-                "unsubscribe_html": "<a href='http://sth.ng/unsubscribe/hash_someone_else'>unsubscribe</a>"
-            }
-        }]
+  "merge": {
+    "someone@somewhere.com": {
+      "unsubscribe_html": "<a href='http://sth.ng/unsubscribe/hash_someone'>unsubscribe</a>"
+    },
+    "someone@else.com": {
+      "unsubscribe_html": "<a href='http://sth.ng/unsubscribe/hash_someone_else'>unsubscribe</a>"
     }
+  }
 }
 ```
 
-That'd be a perfect use for merge variables, which were described above in the [send options](#email-sending-options). Remember, those are just supported by Mandrill, though. Mandrill [deals with merge variables][4] after you make a request to their API, replacing them with the values assigned to each recipient.
+That'd be a perfect use for merge variables, which were described above in the [send options](#email-sending-options). Remember, those are supported by Mandrill and Mailgun, but not every provider supports merge variables. Mandrill and Mailgun [deals with merge variables][4] after you make a request to their API, replacing them with the values assigned to each recipient.
 
 # Debugging
 
@@ -325,52 +331,22 @@ Rather than actually sending emails, you will get a bit of JSON output in your t
 
 # Providers
 
-There are a few different providers you can use. The default provider sends mails through [Mandrill][1]. There is also a `terminal` logging provider, [explained above](#debugging), and a `nodemailer` provider, detailed below.
-
-### Using `nodemailer`
-
-To use with `nodemailer`, simply use that provider.
-
-```js
-var nodemailer = require('nodemailer');
-var smtp = nodemailer.createTransport('SMTP', {
-    service: 'Gmail',
-    auth: {
-        user: 'gmail.user@gmail.com',
-        pass: 'userpass'
-    }
-});
-
-var campaign = require('campaign');
-var client = campaign({
-    provider: campaign.providers.nodemailer({
-        transport: smtp,
-        transform: function (options) {
-            // add whatever options you want,
-            // or return a completely different object
-        }
-    })
-});
-
-// build and send mails as usual
-```
-
-That's that.
+There are a few different providers you can use. The recommended provider is to send emails through [`campaign-mailgun`][16]. There is also a `campaign-terminal` logging provider, [explained above](#debugging), and a `nodemailer` provider, detailed below.
 
 ### Creating custom providers
 
-If the existing providers don't satisfy your needs, you may provide your own. The `provider` option just needs to be an object with a `send` method. For an example, check out the [`nodemailer` provider source code][10].
+If the existing providers don't satisfy your needs, you may provide your own. The `provider` option just needs to be an object with a `send` method. For an example, check out the [`campaign-nodemailer` provider source code][20].
 
 You can easily write your own `campaign` provider, like this.
 
 ```js
 var campaign = require('campaign');
 var client = campaign({
-    provider: {
-        send: function (model, done) {
-            // use the data in the model to send your email messages
-        }
+  provider: {
+    send: function (model, done) {
+      // use the data in the model to send your email messages
     }
+  }
 });
 
 // build and send mails as usual
@@ -405,19 +381,25 @@ Hmmm, yeah. That'd be great!
 
 MIT
 
-  [changelog]: CHANGELOG.md
-  [1]: http://mandrill.com/
-  [2]: https://bitbucket.org/mailchimp/mandrill-api-node/src/d6dcc306135c6100d9bc2e2da2e82c8dec3ff6fb/mandrill.js?at=master
-  [3]: http://blog.ponyfoo.com
-  [4]: http://help.mandrill.com/entries/21678522-How-do-I-use-merge-tags-to-add-dynamic-content-
-  [5]: http://help.mandrill.com/entries/28563573-How-do-I-use-tags-in-Mandrill-
-  [6]: https://github.com/janl/mustache.js
-  [7]: https://github.com/mailchimp/Email-Blueprints
-  [8]: http://i.imgur.com/Coy4m0Y.png
-  [9]: http://i.imgur.com/cBFalWm.png
-  [10]: https://github.com/bevacqua/campaign/blob/master/src/providers/nodemailer.js
-  [11]: http://momentjs.com
-  [12]: http://www.sitepoint.com/javascript-truthy-falsy/
-  [13]: http://i.imgur.com/fTh1JiD.png
-  [14]: https://github.com/bevacqua/campaign-jade
-  [15]: http://momentjs.com/docs/#/displaying/format/
+[changelog]: CHANGELOG.md
+[1]: http://mandrill.com/
+[2]: https://bitbucket.org/mailchimp/mandrill-api-node/src/d6dcc306135c6100d9bc2e2da2e82c8dec3ff6fb/mandrill.js?at=master
+[3]: http://blog.ponyfoo.com
+[4]: http://help.mandrill.com/entries/21678522-How-do-I-use-merge-tags-to-add-dynamic-content-
+[5]: http://help.mandrill.com/entries/28563573-How-do-I-use-tags-in-Mandrill-
+[6]: https://github.com/janl/mustache.js
+[7]: https://github.com/mailchimp/Email-Blueprints
+[8]: http://i.imgur.com/Coy4m0Y.png
+[9]: http://i.imgur.com/cBFalWm.png
+[10]: https://github.com/bevacqua/campaign/blob/master/src/providers/nodemailer.js
+[11]: http://momentjs.com
+[12]: http://www.sitepoint.com/javascript-truthy-falsy/
+[13]: http://i.imgur.com/fTh1JiD.png
+[14]: https://github.com/bevacqua/campaign-jade
+[15]: http://momentjs.com/docs/#/displaying/format/
+[16]: https://github.com/bevacqua/campaign-mailgun
+[17]: https://github.com/bevacqua/campaign-mustache
+[18]: https://github.com/bevacqua/campaign-jadum
+[19]: https://github.com/bevacqua/campaign-terminal
+[20]: https://github.com/bevacqua/campaign-nodemailer
+[21]: https://github.com/bevacqua/campaign-mandrill

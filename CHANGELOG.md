@@ -1,3 +1,11 @@
+# 4.0.0 Monkey Patch
+
+- Replaced `model.mandrill` option with `model.provider` to better support [`campaign-mailgun`][1]
+- Improved _(breaking)_ input format for `model.provider.merge`
+- Introduced `provider.tweakPlaceholder` to tweak `{{placeholder.templates}}` in email provider plugins
+- Demoted Mandrill as a default provider [_because yuck!_][2]
+- Offloaded email-sending providers and responsibility completely into external plugins as originally intended
+
 # 3.0.0 Modern Family
 
 - Replaced `html-md` with maintained module `htmlmd-2`
@@ -73,3 +81,6 @@
 # 1.0.0 Dragon Fire
 
 - Initial Public Release
+
+[1]: https://github.com/bevacqua/campaign-mailgun
+[2]: http://blog.mandrill.com/important-changes-to-mandrill.html
