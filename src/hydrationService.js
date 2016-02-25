@@ -1,8 +1,8 @@
 'use strict';
 
-var _ = require('lodash');
+var assign = require('assignment');
 var path = require('path');
-var async = require('async');
+var contra = require('contra');
 var encode = require('./imageEncodingCacheService.js');
 var defaultStyles = require('./defaultStyles.json');
 
@@ -20,7 +20,7 @@ function cacheHeader (model, header, next) {
 }
 
 function encodeImages (model, next) {
-  async.map(model.images || [], encoder, function (err, images) {
+  contra.map(model.images || [], encoder, function (err, images) {
     model.images = images;
     next(err);
   });
@@ -43,7 +43,7 @@ function encoder (image, transformed) {
 
 module.exports = function (template, model, options, done) {
   if (model.styles) {
-    model.styles = _.merge({}, defaultStyles, model.styles);
+    model.styles = assign({}, defaultStyles, model.styles);
   } else {
     model.styles = defaultStyles;
   }
@@ -59,8 +59,8 @@ module.exports = function (template, model, options, done) {
 
   model._template = template ? filename(template) : '(dynamic)';
 
-  async.parallel([
-    async.apply(cacheHeader, model, options.headerImage),
-    async.apply(encodeImages, model)
+  contra.concurrent([
+    contra.curry(cacheHeader, model, options.headerImage),
+    contra.curry(encodeImages, model)
   ], done);
 };

@@ -33,7 +33,7 @@ Quick links for reference.
 
 # Features
 
-- _Extensible._ Pick a template engine and an email sending service or SMTP and roll with it
+- _Extensible._ Pick a template engine and an email-sending service or SMTP and roll with it
 - Takes care of boring stuff: CSS inlining, `@media` queries, JSON-LD, plain-text versions of your HTML
 - Takes care of important stuff: batching requests, providing a sane API, view layouts, etc.
 - Provides debugging facilities for sending test emails and capturing output in a terminal session
@@ -230,9 +230,11 @@ The following example shows merge variables for a couple emails and defaults tha
 }
 ```
 
+In your email templates, you can reference these variables simply using `{{something}}` for values you wish to encode before embedding, and `{{{here}}}` for embedding raw HTML. Note that this syntax is consistent regardless of whether you're using `campaign-mailgun`, `campaign-mandrill`, or something else.
+
 ##### `provider.tags`
 
-[Mandrill][1] and others let you tag your emails so that you can find different campaigns later on. Read more about [tagging][5]. By default, emails will be tagged with the template name.
+[Mailgun][22], [Mandrill][1] and others let you tag your emails so that you can find different campaigns later on. Read more about [tagging][5]. By default, emails will be tagged with the template name.
 
 ### `styles`
 
@@ -302,22 +304,24 @@ Custom layouts should either abide by these style rule names, or provide entirel
 
 ### Unsubscribe Facilities
 
-The default `layout` supports an optional `unsubscribe_html` merge variable, which can be filled out like below.
+Here's a perfect use case for merge variables, which were described above in the [send options](#email-sending-options). While many email service providers offer a way to unsubscribe readers, their implementations don't quite align to one another, so we favor using merge variables instead.
+
+The default `layout` supports an optional `unsubscribe_html` merge variable, which can be filled out like below. This is rendered in the footer of every email `campaign` sends out.
 
 ```json
 {
   "merge": {
     "someone@somewhere.com": {
-      "unsubscribe_html": "<a href='http://sth.ng/unsubscribe/hash_someone'>unsubscribe</a>"
+      "unsubscribe_html": "<a href='http://sth.ng/unsubscribe/hash_for_someone'>unsubscribe</a>"
     },
     "someone@else.com": {
-      "unsubscribe_html": "<a href='http://sth.ng/unsubscribe/hash_someone_else'>unsubscribe</a>"
+      "unsubscribe_html": "<a href='http://sth.ng/unsubscribe/hash_for_someone_else'>unsubscribe</a>"
     }
   }
 }
 ```
 
-That'd be a perfect use for merge variables, which were described above in the [send options](#email-sending-options). Remember, those are supported by Mandrill and Mailgun, but not every provider supports merge variables. Mandrill and Mailgun [deals with merge variables][4] after you make a request to their API, replacing them with the values assigned to each recipient.
+Remember, those are supported by Mandrill and Mailgun, but not every provider supports merge variables. Mandrill and Mailgun [allow use of merge variables][4] _(Mailgun calls them ["recipient variables"][23])_ after you make a request to their API, replacing them with the values assigned to each recipient.
 
 # Debugging
 
@@ -326,7 +330,7 @@ To help you debug, an alternative `provider` is available. Set it up like this:
 ```js
 var campaign = require('campaign');
 var client = campaign({
-    provider: campaign.providers.terminal()
+  provider: require('campaign-terminal')
 });
 
 // build and send mails as usual
@@ -344,19 +348,22 @@ There are a few different providers you can use. The recommended provider is to 
 
 If the existing providers don't satisfy your needs, you may provide your own. The `provider` option just needs to be an object with a `send` method. For an example, check out the [`campaign-nodemailer` provider source code][20].
 
-You can easily write your own `campaign` provider, like this.
+To create your own email-sending provider, you'll need to create a module that implements the interface methods found below. See [`campaign-mailgun`][25] for an example on how you could implementat your own email-sending provider.
 
 ```js
-var campaign = require('campaign');
-var client = campaign({
-  provider: {
-    send: function (model, done) {
-      // use the data in the model to send your email messages
+{
+  name: 'my-custom-provider', // mostly debugging purposes
+  send: function (model, done) {
+    // use the data in the model to send your email messages
+  },
+  tweakPlaceholder: function (property, raw) {
+    // used to explain how merge variables should be rendered in the template, e.g:
+    if (raw) {
+      return '${HTML:' + property + '}';
     }
+    return '${' + property + '}';
   }
-});
-
-// build and send mails as usual
+}
 ```
 
 If you decide to go for your own provider, `campaign` will still prove useful thanks to its templating features, which you can also extend!
@@ -365,14 +372,15 @@ If you decide to go for your own provider, `campaign` will still prove useful th
 
 The default provider included with `campaign` allows us to render layouts and views using [`mustache`][6], but this behavior can be altered to use a custom templating engine.
 
-To create your own template engine, you'll need to implement the two methods below.
+To create your own template engine, you'll need to create a module that implements the interface methods found below. See [`campaign-jadum`][24] for an example on how you could implementat your own template engine.
 
 ```js
 {
   render: function (file, model, done) {
   },
   renderString: function (template, model, done) {
-  }
+  },
+  defaultLayout: '/path/to/default/layout'
 }
 ```
 
@@ -383,6 +391,8 @@ The `done` callback takes an error as the first argument, and the resulting HTML
 You're welcome to contribute to the development of `campaign`! Additional template engines and providers would be nice, and I'd encourage creating packages that solely contain that engine or email provider. For instance, you could create `campaign-ejs`, or `campaign-postmark`.
 
 Hmmm, yeah. That'd be great!
+
+![Lovely Internet meme][26]
 
 # License
 
@@ -410,3 +420,8 @@ MIT
 [19]: https://github.com/bevacqua/campaign-terminal
 [20]: https://github.com/bevacqua/campaign-nodemailer
 [21]: https://github.com/bevacqua/campaign-mandrill
+[22]: http://mailgun.com/
+[23]: https://documentation.mailgun.com/user_manual.html#batch-sending
+[24]: https://github.com/bevacqua/campaign-jadum/blob/f98b0cd0a8bf595b5f2452e2d6d781ffc9426fea/index.js
+[25]: https://github.com/bevacqua/campaign-mailgun/blob/4bbe5ae09534597c43acc1a66f98e6f74b581d70/mailgun.js
+[26]: https://i.imgur.com/1j61Wj2.jpg

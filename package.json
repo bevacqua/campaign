@@ -17,23 +17,20 @@
     "campaign",
     "email",
     "mail",
+    "mailgun",
     "mandrill",
     "templates",
     "mustache",
+    "jade",
     "smtp",
     "imap",
     "pop3"
   ],
   "main": "./campaign.js",
   "dependencies": {
-    "async": "~0.2.9",
-    "htmlmd-2": "1.0.0",
-    "lodash": "~2.4.1",
-    "mandrill-api": "~1.0.37",
-    "marked": "^0.3.3",
-    "marked-terminal": "^1.1.3",
-    "mime": "~1.2.11",
-    "moment": "~2.5.0",
-    "mustache": "~0.8.0"
+    "assignment": "2.2.0",
+    "contra": "1.9.1",
+    "mime": "1.3.4",
+    "moment": "2.11.2"
   }
 }

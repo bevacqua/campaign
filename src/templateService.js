@@ -21,9 +21,6 @@ module.exports = function (options) {
         styles: model.styles,
         linkedData: model.linkedData
       };
-      if (options.provider.name === 'mandrill') {
-        layoutModel._unsubscribe = '*|HTML:unsubscribe_html|*';
-      }
       options.templateEngine.render(model.layout || options.layout, layoutModel, done);
     };
   }

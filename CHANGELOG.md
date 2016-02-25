@@ -1,3 +1,8 @@
+# 4.0.1 Nip Tuck
+
+- Minor internal nitpicking
+- Cleaned up dependency tree
+
 # 4.0.1 To Be
 
 - Validation ensures `model.to` is an array

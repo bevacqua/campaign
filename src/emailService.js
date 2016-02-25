@@ -1,6 +1,6 @@
 'use strict';
 
-var async = require('async');
+var contra = require('contra');
 
 function service (options) {
   var templateService = require('./templateService.js')(options);
@@ -25,11 +25,11 @@ function service (options) {
     var validation = require('./validationService.js')(model.trap || options.trap);
     var file = render === templateService.render ? template : null;
 
-    async.series({
-      validation: async.apply(validation, model),
-      hydration: async.apply(hydrate, file, model, options),
-      update: async.apply(async.waterfall, [
-        async.apply(render, template, model),
+    contra.series({
+      validation: contra.curry(validation, model),
+      hydration: contra.curry(hydrate, file, model, options),
+      update: contra.curry(contra.waterfall, [
+        contra.curry(render, template, model),
         updateModel
       ]),
       response: providerSend
@@ -44,12 +44,15 @@ function service (options) {
     });
 
     function updateModel (html, next) {
-      model.html = html;
-      if (options.provider.tweakPlaceholder) {
-        model.html = model.html.replace(/(\{{2,})([\w._-]+)(\}{2,})/g, tweaker);
-      }
+      model.html = tweak(html);
       next();
-
+      function tweak (html) {
+        var rtweaker = /(\{{2,})([\w._-]+)(\}{2,})/g;
+        if (options.provider.tweakPlaceholder) {
+          return html.replace(rtweaker, tweaker);
+        }
+        return html;
+      }
       function tweaker (all, left, content, right) {
         var raw = left.length === 3 && right.length === 3;
         return options.provider.tweakPlaceholder(content, raw);
