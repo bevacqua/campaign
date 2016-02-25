@@ -1,3 +1,7 @@
+# 4.0.1 To Be
+
+- Validation ensures `model.to` is an array
+
 # 4.0.0 Monkey Patch
 
 - Replaced `model.mandrill` option with `model.provider` to better support [`campaign-mailgun`][1]
