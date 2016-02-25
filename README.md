@@ -1,6 +1,7 @@
 ![campaign.png][9] ![ga](https://ga-beacon.appspot.com/UA-35043128-6/campaign/readme?pixel)
 
 [![help me on gittip](http://gbindex.ssokolow.com/img/gittip-43x20.png)](https://www.gittip.com/bevacqua/) [![flattr.png](https://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=nzgb&url=https%3A%2F%2Fgithub.com%2Fbevacqua%2Fcampaign)
+[![Support](https://supporter.60devs.com/api/b/f4co3kmopd9mngbzjgn6ymbug/campaign)](https://supporter.60devs.com/support/f4co3kmopd9mngbzjgn6ymbug/campaign)
 
 > Compose responsive email templates easily, fill them with models, and send them out.
 
