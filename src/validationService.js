@@ -16,11 +16,12 @@ module.exports = function (trap) {
     if (!model.subject) { return done(new Error('Subject missing in email')); }
     if (!model.teaser) { model.teaser = model.subject; }
     if (typeof model.to === 'string') { model.to = [model.to]; }
+    if (!Array.isArray(model.to)) { model.to = []; }
 
     if (trap) {
       model.subject += ' - to: ' + getRecipientsTitle(model.to);
       model.trapped = JSON.stringify({
-        to: model.to || [],
+        to: model.to,
         merge: model.provider && model.provider.merge || []
       }, null, 2);
       model.to = typeof trap === 'string' ? [trap] : [];
