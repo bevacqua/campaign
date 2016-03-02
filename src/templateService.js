@@ -14,6 +14,7 @@ module.exports = function (options) {
         _header: !!model._header,
         subject: model.subject,
         teaser: model.teaser,
+        teaserHtml: model.teaserHtml,
         generated: model.generated,
         body: model.body,
         trapped: model.trapped,

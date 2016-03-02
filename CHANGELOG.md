@@ -1,3 +1,7 @@
+# 4.1.2 Friendly Foe
+
+- Introduced `teaserHtml` option to give template plugins more header-rendering options
+
 # 4.1.1 Bear Trap
 
 - Don't annoy `trap` recipients with annoying `tweakPlaceholder` glyphs
