@@ -15,6 +15,7 @@ Campaign can send emails through a variety of services using different plugins a
 - [`campaign-terminal`][19] renders emails as **Terminal-friendly Markdown** in your terminal for convenient debugging
 - [`campaign-nodemailer`][20] sends emails through `nodemailer`
 - [`campaign-mandrill`][21] sends emails through `mandrill-api`
+- [`campaign-sparkpost`][27] sends emails through `sparkpost`
 
 # Reference
 
@@ -105,6 +106,7 @@ Available providers listed below.
 - [`campaign-terminal`][19]
 - [`campaign-nodemailer`][20]
 - [`campaign-mandrill`][21]
+- [`campaign-sparkpost`][27]
 
 ### `templateEngine`
 
@@ -437,3 +439,4 @@ MIT
 [24]: https://github.com/bevacqua/campaign-jadum/blob/f98b0cd0a8bf595b5f2452e2d6d781ffc9426fea/index.js
 [25]: https://github.com/bevacqua/campaign-mailgun/blob/4bbe5ae09534597c43acc1a66f98e6f74b581d70/mailgun.js
 [26]: https://i.imgur.com/1j61Wj2.jpg
+[27]: https://github.com/SparkPost/campaign-sparkpost
