@@ -335,7 +335,12 @@ The default `layout` supports an optional `unsubscribe_html` merge variable, whi
 }
 ```
 
-Remember, those are supported by Mandrill and Mailgun, but not every provider supports merge variables. Mandrill and Mailgun [allow use of merge variables][4] _(Mailgun calls them ["recipient variables"][23])_ after you make a request to their API, replacing them with the values assigned to each recipient.
+Remember, those are supported by Mandrill, Mailgun, and SparkPost, but not every provider supports merge variables. 
+Merge variables are processed after you make a request to their API, with the provider replacing them with the values 
+assigned to each recipient. For more detail on merge variables for each provider you can read these docs:
+ * Mandrill: [merge variables][4] 
+ * Mailgun: [recipient variables][23]
+ * SparkPost: [substitution data][28]
 
 # Debugging
 
@@ -440,3 +445,4 @@ MIT
 [25]: https://github.com/bevacqua/campaign-mailgun/blob/4bbe5ae09534597c43acc1a66f98e6f74b581d70/mailgun.js
 [26]: https://i.imgur.com/1j61Wj2.jpg
 [27]: https://github.com/SparkPost/campaign-sparkpost
+[28]: https://developers.sparkpost.com/api/#/introduction/substitutions-reference
