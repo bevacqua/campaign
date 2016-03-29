@@ -31,8 +31,9 @@ function encoder (image, transformed) {
     transformed(null, image); return;
   }
   encode(image.file, function (err, encoded) {
-    if (err) { return transformed(err); }
-
+    if (err) {
+      transformed(err); return;
+    }
     transformed(null, {
       name: image.name,
       mime: encoded.mime,
@@ -60,7 +61,7 @@ module.exports = function (template, model, options, done) {
   model._template = template ? filename(template) : '(dynamic)';
 
   contra.concurrent([
-    contra.curry(cacheHeader, model, options.headerImage),
+    contra.curry(cacheHeader, model, 'headerImage' in model ? model.headerImage : options.headerImage),
     contra.curry(encodeImages, model)
   ], done);
 };

@@ -1,3 +1,7 @@
+# 4.1.3 Image Hero
+
+- Introduced ability to set `headerImage` on the `model` for individual emails
+
 # 4.1.2 Friendly Foe
 
 - Introduced `teaserHtml` option to give template plugins more header-rendering options

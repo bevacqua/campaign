@@ -6,17 +6,17 @@ var cache = {};
 
 module.exports = function (file, done) {
   if (file in cache) {
-    return next();
+    next(); return;
   }
   if (!file) {
-    return done();
+    done(); return;
   }
 
   fs.readFile(file, read);
 
   function read (err, data) {
     if (err) {
-      return done(err);
+      done(err); return;
     }
     cache[file] = {
       data: new Buffer(data).toString('base64'),
