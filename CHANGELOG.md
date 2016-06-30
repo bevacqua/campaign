@@ -1,3 +1,7 @@
+# 4.1.4 Closed Captioning
+
+- Introduced support for `cc`, `bcc` fields
+
 # 4.1.3 Image Hero
 
 - Introduced ability to set `headerImage` on the `model` for individual emails

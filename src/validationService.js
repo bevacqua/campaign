@@ -16,18 +16,30 @@ module.exports = function (trap) {
     if (!model.subject) { return done(new Error('Subject missing in email')); }
     if (!model.teaser) { model.teaser = model.subject; }
     if (typeof model.to === 'string') { model.to = [model.to]; }
+    if (typeof model.cc === 'string') { model.cc = [model.cc]; }
+    if (typeof model.bcc === 'string') { model.bcc = [model.bcc]; }
     if (!Array.isArray(model.to)) { model.to = []; }
+    if (!Array.isArray(model.cc)) { model.cc = []; }
+    if (!Array.isArray(model.bcc)) { model.bcc = []; }
 
     if (trap) {
-      model.subject += ' - to: ' + getRecipientsTitle(model.to);
-      model.trapped = JSON.stringify({
-        to: model.to,
-        merge: model.provider && model.provider.merge || []
-      }, null, 2);
+      model.subject += ' - to: ' + getRecipientsTitle(model.to.concat(model.cc).concat(model.bcc));
+      model.trapped = JSON.stringify(readTrapped(), null, 2);
       model.to = typeof trap === 'string' ? [trap] : [];
+      model.cc = [];
+      model.bcc = [];
     }
 
     done();
+
+    function readTrapped () {
+      return {
+        to: model.to,
+        cc: model.cc,
+        bcc: model.bcc,
+        merge: model.provider && model.provider.merge || []
+      };
+    }
   }
 
   return validateModel;
