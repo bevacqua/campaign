@@ -159,6 +159,7 @@ Once you've created a client, you can start sending emails. Here are the default
   "to": "<not provided>",
   "when": "YYYY/MM/DD HH:mm, UTC Z",
   "images": "<empty>",
+  "attachments": "<empty>",
   "social": {
     "twitter": "<not provided>",
     "landing": "<not provided>",
@@ -193,6 +194,16 @@ These are the recipients of the email you're sending. Simply provide a single re
 ### `when`
 
 Here you can pass a `moment` [format string][15]. Eg. `'[um] HH:mm [am] DD.MM.YYYY'`. The default format passed to `moment` is `'YYYY/MM/DD HH:mm, UTC Z'`.
+
+### `attachments`
+
+A list of files you'd like to attach to your emails.
+
+```js
+[
+  { name: 'invoice', file: path.join(__dirname, 'invoice.png') }
+]
+```
 
 ### `images`
 
