@@ -22,7 +22,8 @@ module.exports = function (options) {
         trapped: model.trapped,
         social: model.social,
         styles: model.styles,
-        linkedData: model.linkedData
+        linkedData: model.linkedData,
+        unsubscribe: model.provider && model.provider.merge ? '{{{unsubscribe_html}}}' : ''
       };
       options.templateEngine.render(model.layout || options.layout, layoutModel, done);
     };
