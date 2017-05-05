@@ -23,7 +23,8 @@ module.exports = function (options) {
         social: model.social,
         styles: model.styles,
         linkedData: model.linkedData,
-        unsubscribe: model.provider && model.provider.merge ? '{{{unsubscribe_html}}}' : ''
+        unsubscribe: model.provider && model.provider.merge ? '{{{unsubscribe_html}}}' : '',
+        pixel: model.pixel
       };
       options.templateEngine.render(model.layout || options.layout, layoutModel, done);
     };
