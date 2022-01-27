@@ -4,8 +4,8 @@
 
 var campaign = require('../campaign.js');
 var client = campaign({
-    from: 'nicolasbevacqua@gmail.com',
-    trap: 'nicolasbevacqua@gmail.com',
+    from: 'ilmar.tyrk@gmail.com',
+    trap: 'ilmar.tyrk@gmail.com',
     mandrill: { debug: true }
 });
 
@@ -15,8 +15,6 @@ var model = {
     subject: 'Awesome Things',
     data: 'interesting stuff'
 };
-client.sendString(template, model, done);
-
-function done (err, response) {
-    console.log('Done!', err, response);
-}
+client.sendString(template, model).then(function() {
+    console.log('Done!');
+});

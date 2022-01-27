@@ -11,9 +11,9 @@ module.exports = function (trap) {
     return recipients.length + ' recipients';
   }
 
-  function validateModel (model, done) {
-    if (!model.to) { return done(new Error('Recipients missing in email')); }
-    if (!model.subject) { return done(new Error('Subject missing in email')); }
+  async function validateModel (model) {
+    if (!model.to) { throw new Error('Recipients missing in email'); }
+    if (!model.subject) { throw new Error('Subject missing in email'); }
     if (!model.teaser) { model.teaser = model.subject; }
     if (typeof model.to === 'string') { model.to = [model.to]; }
     if (typeof model.cc === 'string') { model.cc = [model.cc]; }
@@ -21,7 +21,6 @@ module.exports = function (trap) {
     if (!Array.isArray(model.to)) { model.to = []; }
     if (!Array.isArray(model.cc)) { model.cc = []; }
     if (!Array.isArray(model.bcc)) { model.bcc = []; }
-
     if (trap) {
       model.subject += ' - to: ' + getRecipientsTitle(model.to.concat(model.cc).concat(model.bcc));
       model.trapped = JSON.stringify(readTrapped(), null, 2);
@@ -29,8 +28,6 @@ module.exports = function (trap) {
       model.cc = [];
       model.bcc = [];
     }
-
-    done();
 
     function readTrapped () {
       return {

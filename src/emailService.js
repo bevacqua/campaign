@@ -1,52 +1,42 @@
 'use strict';
 
-var contra = require('contra');
-
 function service (options) {
-  var templateService = require('./templateService.js')(options);
-  var hydrate = require('./hydrationService.js');
+  const templateService = require('./templateService.js')(options);
+  const hydrate = require('./hydrationService.js');
 
   return {
-    send: function (file, model, done) {
-      renderer(templateService.render, file, model, true, done);
+    send: async function (file, model) {
+      return renderer(templateService.render, file, model, true);
     },
-    sendString: function (template, model, done) {
-      renderer(templateService.renderString, template, model, true, done);
+    sendString: async  function (template, model) {
+      return renderer(templateService.renderString, template, model, true);
     },
-    render: function (file, model, done) {
-      renderer(templateService.render, file, model, false, done);
+    render: async  function (file, model) {
+      return renderer(templateService.render, file, model, false);
     },
-    renderString: function (template, model, done) {
-      renderer(templateService.renderString, template, model, false, done);
+    renderString: async  function (template, model) {
+      return renderer(templateService.renderString, template, model, false);
     }
   };
 
-  function renderer (render, template, model, send, done) {
-    var trap = model.trap || options.trap;
-    var validation = require('./validationService.js')(trap);
-    var file = render === templateService.render ? template : null;
+  async function renderer (render, template, model, send) {
+    const trap = model.trap || options.trap;
+    const validation = require('./validationService.js')(trap);
+    const file = render === templateService.render ? template : null;
+    await validation(model);
+    await hydrate(file, model, options);
+    const html = await render(template, model);
+    await updateModel(html);
+    const response = providerSend();
 
-    contra.series({
-      validation: contra.curry(validation, model),
-      hydration: contra.curry(hydrate, file, model, options),
-      update: contra.curry(contra.waterfall, [
-        contra.curry(render, template, model),
-        updateModel
-      ]),
-      response: providerSend
-    }, function (err, results) {
-      if (err) {
-        done(err);
-      } else if (send) {
-        done(null, results ? results.response : results);
-      } else {
-        done(null, model.html, model);
-      }
-    });
+    if (send) {
+      return response;
+    } else {
+      return model.html;
+    }
 
-    function updateModel (html, next) {
+    async function updateModel (html) {
       model.html = tweak(formatting(html));
-      next();
     }
 
     function formatting (html) {
@@ -57,21 +47,19 @@ function service (options) {
       if (trap) { // don't annoy trap recipient with weird glyphs
         return html;
       }
-      var rtweaker = /(\{{2,})([\w._-]+)(\}{2,})/g;
+      const rtweaker = /(\{{2,})([\w._-]+)(\}{2,})/g;
       if (options.provider.tweakPlaceholder) {
         return html.replace(rtweaker, tweaker);
       }
       return html;
     }
     function tweaker (all, left, content, right) {
-      var raw = left.length === 3 && right.length === 3;
+      const raw = left.length === 3 && right.length === 3;
       return options.provider.tweakPlaceholder(content, raw);
     }
-    function providerSend (next) {
-      if (send) {
-        options.provider.send(model, next);
-      } else {
-        next();
+    function providerSend () {
+      if (send && options.provider) {
+        return options.provider.send(model);
       }
     }
   }
