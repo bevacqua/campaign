@@ -16,9 +16,10 @@ async function cacheHeader (model, header) {
 
 async function encodeImages (model) {
   if (model.images?.length) {
-    model.images = model.images.map((image) => {
-      return encoder(image);
-    })
+    model.images = await Promise.all(model.images.map(async (image) => {
+      const encoded = await encoder(image);
+      return encoded;
+    }));
   }
 }
 
