@@ -1,50 +1,44 @@
 'use strict';
 
-var assign = require('assignment');
-var path = require('path');
-var contra = require('contra');
-var encode = require('./imageEncodingCacheService.js');
-var defaultStyles = require('./defaultStyles.json');
+const path = require('path');
+const encode = require('./imageEncodingCacheService.js');
+const defaultStyles = require('./defaultStyles.json');
 
 function filename (file) {
-  var basename = path.basename(file);
-  var lio = basename.lastIndexOf('.');
-  return lio === -1 ? basename : basename.substr(0, lio);
+  const basename = path.basename(file);
+  const lio = basename.lastIndexOf('.');
+  return lio === -1 ? basename : basename.substring(0, lio);
 }
 
-function cacheHeader (model, header, next) {
-  encode(header, function (err, result) {
-    model._header = result;
-    next(err);
-  });
+async function cacheHeader (model, header) {
+  model._header = await encode(header);
 }
 
-function encodeImages (model, next) {
-  contra.map(model.images || [], encoder, function (err, images) {
-    model.images = images;
-    next(err);
-  });
-}
-
-function encoder (image, transformed) {
-  if (image.data && image.mime) {
-    transformed(null, image); return;
+async function encodeImages (model) {
+  if (model.images?.length) {
+    model.images = await Promise.all(model.images.map(async (image) => {
+      const encoded = await encoder(image);
+      return encoded;
+    }));
   }
-  encode(image.file, function (err, encoded) {
-    if (err) {
-      transformed(err); return;
-    }
-    transformed(null, {
-      name: image.name,
-      mime: encoded.mime,
-      data: encoded.data
-    });
-  });
 }
 
-module.exports = function (template, model, options, done) {
+async function encoder (image) {
+  if (image.data && image.mime) {
+    return image;
+  }
+  const encoded = await encode(image.file);
+
+  return {
+    name: image.name,
+    mime: encoded.mime,
+    data: encoded.data
+  };
+}
+
+module.exports = async function (template, model, options) {
   if (model.styles) {
-    model.styles = assign({}, defaultStyles, model.styles);
+    model.styles = Object.assign(defaultStyles, model.styles);
   } else {
     model.styles = defaultStyles;
   }
@@ -59,9 +53,7 @@ module.exports = function (template, model, options, done) {
   }
 
   model._template = template ? filename(template) : '(dynamic)';
+  await cacheHeader(model, model.headerImage || options.headerImage);
 
-  contra.concurrent([
-    contra.curry(cacheHeader, model, 'headerImage' in model ? model.headerImage : options.headerImage),
-    contra.curry(encodeImages, model)
-  ], done);
+  return encodeImages(model);
 };

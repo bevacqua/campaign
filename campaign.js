@@ -1,10 +1,19 @@
 'use strict';
 
-var path = require('path');
-var emailService = require('./src/emailService.js');
+const emailService = require('./src/emailService.js');
+const templateEngine = require('./src/templateEngine.js');
+const terminal = require('./src/terminalProvider.js')();
 
 function api (options) {
-  options.layout = options.layout || options.templateEngine.defaultLayout;
+  options = options || {};
+  if (!options.templateEngine) {
+    options.templateEngine = templateEngine;
+  }
+  if (!options.provider) {
+    options.provider = terminal;
+  }
+  options.layout = options.layout || options.templateEngine?.defaultLayout;
+
   return emailService(options);
 }
 

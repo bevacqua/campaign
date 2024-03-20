@@ -1,31 +1,28 @@
 'use strict';
 
-var fs = require('fs');
-var mime = require('mime');
-var cache = {};
+const fs = require('fs/promises');
+const path = require('path');
+const mime = require('mime');
+const cache = {};
 
-module.exports = function (file, done) {
+module.exports = async function (file) {
   if (file in cache) {
-    next(); return;
+    return cache[file];
   }
   if (!file) {
-    done(); return;
+    return;
   }
 
-  fs.readFile(file, read);
-
-  function read (err, data) {
-    if (err) {
-      done(err); return;
-    }
+  try {
+    const data = await fs.readFile(path.resolve(file));
     cache[file] = {
-      data: new Buffer(data).toString('base64'),
-      mime: mime.lookup(file)
+      data: Buffer.from(data).toString('base64'),
+      mime: mime.getType(file)
     };
-    next();
+
+    return cache[file];
+  } catch (err) {
+    console.error(err);
   }
 
-  function next () {
-    done(null, cache[file]);
-  }
 };
